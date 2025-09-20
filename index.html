@@ -6,98 +6,171 @@
   <title>Kafe Menü</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      color: #333;
       margin: 0;
-      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #fdfbf7; /* krem */
+      color: #3b2f2f; /* koyu kahverengi */
     }
+
     header {
-      background: #8B0000;
-      color: white;
+      background-color: #d2b48c; /* ahşap bej tonu */
+      color: #fff;
       text-align: center;
       padding: 20px;
     }
-    h1 {
+
+    header h1 {
       margin: 0;
+      font-size: 28px;
     }
-    .menu-section {
-      padding: 20px;
-      max-width: 600px;
+
+    .container {
+      max-width: 700px;
       margin: auto;
+      padding: 20px;
     }
-    .menu-section h2 {
-      border-bottom: 2px solid #8B0000;
-      padding-bottom: 5px;
-      margin-bottom: 15px;
+
+    .category {
+      display: block;
+      background: #fff8f0;
+      border: 1px solid #e0d5c3;
+      border-radius: 10px;
+      margin: 15px 0;
+      padding: 20px;
+      font-size: 22px;
+      text-align: center;
+      text-decoration: none;
+      color: #3b2f2f;
+      font-weight: bold;
+      transition: all 0.2s ease;
     }
-    ul {
-      list-style: none;
-      padding: 0;
+
+    .category:hover {
+      background: #f2e4d3;
+      transform: scale(1.02);
     }
-    li {
+
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: #3b2f2f;
+      font-size: 16px;
+    }
+
+    .menu-item {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px 0;
+      border: 1px solid #e0d5c3;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-top {
       display: flex;
       justify-content: space-between;
-      margin: 8px 0;
       font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
+
+    .menu-photo {
+      background-color: #f0e6da; /* fotoğraf alanı için boş kutu */
+      border-radius: 8px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8b5e3c;
+      font-size: 14px;
+      font-style: italic;
+    }
+
     .price {
       font-weight: bold;
-    }
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #eee;
-      margin-top: 30px;
-      font-size: 14px;
-      color: #555;
+      color: #8b5e3c;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>☕ Kafe Menü</h1>
-    <p>Hoş Geldiniz</p>
+    <h1>🍴 Kafe Menü</h1>
   </header>
 
-  <div class="menu-section">
-    <h2>Kahvaltılar</h2>
-    <ul>
-      <li><span>Serpme Kahvaltı</span> <span class="price">250 TL</span></li>
-      <li><span>Tost (Kaşar/Sucuk)</span> <span class="price">80 TL</span></li>
-      <li><span>Menemen</span> <span class="price">90 TL</span></li>
-    </ul>
+  <!-- Ana Sayfa -->
+  <div class="container" id="main">
+    <a href="#borekler" class="category">🥐 Börekler</a>
+    <a href="#icecekler" class="category">🥤 İçecekler</a>
+    <a href="#tatlilar" class="category">🍰 Tatlılar</a>
   </div>
 
-  <div class="menu-section">
-    <h2>Sıcak İçecekler</h2>
-    <ul>
-      <li><span>Çay</span> <span class="price">15 TL</span></li>
-      <li><span>Kahve</span> <span class="price">45 TL</span></li>
-      <li><span>Cappuccino</span> <span class="price">60 TL</span></li>
-    </ul>
+  <!-- Börekler -->
+  <div class="container" id="borekler" style="display:none;">
+    <a href="#" class="back" onclick="goBack()">← Geri</a>
+    <h2>🥐 Börekler</h2>
+
+    <div class="menu-item">
+      <div class="menu-top"><span>Peynirli Börek</span><span class="price">40 TL</span></div>
+      <div class="menu-photo">Fotoğraf eklenecek</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-top"><span>Ispanaklı Börek</span><span class="price">45 TL</span></div>
+      <div class="menu-photo">Fotoğraf eklenecek</div>
+    </div>
   </div>
 
-  <div class="menu-section">
-    <h2>Soğuk İçecekler</h2>
-    <ul>
-      <li><span>Limonata</span> <span class="price">40 TL</span></li>
-      <li><span>Soğuk Kahve</span> <span class="price">55 TL</span></li>
-      <li><span>Ice Tea</span> <span class="price">35 TL</span></li>
-    </ul>
+  <!-- İçecekler -->
+  <div class="container" id="icecekler" style="display:none;">
+    <a href="#" class="back" onclick="goBack()">← Geri</a>
+    <h2>🥤 İçecekler</h2>
+
+    <div class="menu-item">
+      <div class="menu-top"><span>Çay</span><span class="price">15 TL</span></div>
+      <div class="menu-photo">Fotoğraf eklenecek</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-top"><span>Kahve</span><span class="price">40 TL</span></div>
+      <div class="menu-photo">Fotoğraf eklenecek</div>
+    </div>
   </div>
 
-  <div class="menu-section">
-    <h2>Tatlılar</h2>
-    <ul>
-      <li><span>Tiramisu</span> <span class="price">75 TL</span></li>
-      <li><span>Cheesecake</span> <span class="price">80 TL</span></li>
-      <li><span>Sufle</span> <span class="price">70 TL</span></li>
-    </ul>
+  <!-- Tatlılar -->
+  <div class="container" id="tatlilar" style="display:none;">
+    <a href="#" class="back" onclick="goBack()">← Geri</a>
+    <h2>🍰 Tatlılar</h2>
+
+    <div class="menu-item">
+      <div class="menu-top"><span>Tiramisu</span><span class="price">70 TL</span></div>
+      <div class="menu-photo">Fotoğraf eklenecek</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-top"><span>Sufle</span><span class="price">65 TL</span></div>
+      <div class="menu-photo">Fotoğraf eklenecek</div>
+    </div>
   </div>
 
-  <footer>
-    © 2025 Kafe Adı | Afiyet Olsun 🍰
-  </footer>
+  <script>
+    const main = document.getElementById("main");
+    const sections = document.querySelectorAll(".container[id]");
+
+    document.querySelectorAll(".category").forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        main.style.display = "none";
+        const target = document.querySelector(link.getAttribute("href"));
+        target.style.display = "block";
+      });
+    });
+
+    function goBack() {
+      sections.forEach(sec => sec.style.display = "none");
+      main.style.display = "block";
+    }
+  </script>
 </body>
 </html>
