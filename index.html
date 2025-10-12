@@ -148,7 +148,8 @@
       }
     }
 
-    .menu-card:active {
+    .menu-card:active,
+    .menu-card.is-pressed {
       transform: translateY(0) scale(0.97);
       box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18), inset 0 2px 6px rgba(255, 255, 255, 0.4);
     }
@@ -207,7 +208,8 @@
       }
     }
 
-    .back-button:active {
+    .back-button:active,
+    .back-button.is-pressed {
       transform: translateY(0) scale(0.96);
       box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.16);
       background: rgba(255, 255, 255, 0.78);
@@ -312,28 +314,28 @@
   <main>
     <section class="screen active" id="home">
       <header>
-        <h1 class="brand">Çay Börek Kafe</h1>
+        <h1 class="brand">Çay Börek</h1>
         <p class="tagline">Geleneksel lezzetlere modern dokunuş</p>
       </header>
 
       <div class="menu-grid">
-        <a class="menu-card" data-target="borekler" href="#borekler">
+        <a class="menu-card pressable" data-target="borekler" href="#borekler">
           <span class="title">Börekler</span>
           <span class="indicator">Menüye git</span>
         </a>
-        <a class="menu-card" data-target="tatlilar" href="#tatlilar">
+        <a class="menu-card pressable" data-target="tatlilar" href="#tatlilar">
           <span class="title">Tatlılar</span>
           <span class="indicator">Menüye git</span>
         </a>
-        <a class="menu-card" data-target="icecekler" href="#icecekler">
+        <a class="menu-card pressable" data-target="icecekler" href="#icecekler">
           <span class="title">İçecekler</span>
           <span class="indicator">Menüye git</span>
         </a>
-        <a class="menu-card" data-target="kahvalti" href="#kahvalti">
+        <a class="menu-card pressable" data-target="kahvalti" href="#kahvalti">
           <span class="title">Kahvaltılar</span>
           <span class="indicator">Menüye git</span>
         </a>
-        <a class="menu-card" data-target="ozel" href="#ozel">
+        <a class="menu-card pressable" data-target="ozel" href="#ozel">
           <span class="title">Şefin Önerisi</span>
           <span class="indicator">Menüye git</span>
         </a>
@@ -345,170 +347,124 @@
 
       <p class="note">Arka plan için bulanık börek tabağı görselinizi <code>images/borek-arka-plan.jpg</code> olarak ekleyebilirsiniz.</p>
     </section>
-
-    <section class="screen" id="borekler">
-      <div class="menu-section">
-        <div class="section-header">
-          <button class="back-button" data-back="home">Geri dön</button>
-          <h2>Börekler</h2>
-        </div>
-        <div class="items">
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Peynirli Börek <span class="price">45 TL</span></h3>
-              <p>El açması hamuruyla günlük hazırlanan klasik peynirli böreğimiz.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Ispanaklı Börek <span class="price">48 TL</span></h3>
-              <p>Taze ıspanak ve lor peynirinin hafifliğiyle favori öğününüz.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Patatesli Börek <span class="price">46 TL</span></h3>
-              <p>Karamelize soğan ve baharatlarla zenginleşen nefis patatesli iç harç.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" id="tatlilar">
-      <div class="menu-section">
-        <div class="section-header">
-          <button class="back-button" data-back="home">Geri dön</button>
-          <h2>Tatlılar</h2>
-        </div>
-        <div class="items">
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Fıstıklı Baklava <span class="price">75 TL</span></h3>
-              <p>Kat kat açılmış ince hamur ve Gaziantep fıstığı ile hazırlanan klasik lezzet.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Sütlaç <span class="price">50 TL</span></h3>
-              <p>Fırında hafifçe kızartılmış üzeriyle kıvamlı ve ferahlatıcı tat.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Günlük Tatlı <span class="price">55 TL</span></h3>
-              <p>Günlük değişen tatlı alternatifleri için servis ekibimize danışın.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" id="icecekler">
-      <div class="menu-section">
-        <div class="section-header">
-          <button class="back-button" data-back="home">Geri dön</button>
-          <h2>İçecekler</h2>
-        </div>
-        <div class="items">
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Çay <span class="price">18 TL</span></h3>
-              <p>Gün boyu taze demlenen kıvamlı Karadeniz çayımız.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Dibek Kahvesi <span class="price">48 TL</span></h3>
-              <p>Geleneksel yöntemlerle öğütülmüş aromatik dibek kahvesi.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Soğuk Limonata <span class="price">42 TL</span></h3>
-              <p>Taze sıkılmış limon ve nane ile hazırlanan ferah içecek.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" id="kahvalti">
-      <div class="menu-section">
-        <div class="section-header">
-          <button class="back-button" data-back="home">Geri dön</button>
-          <h2>Kahvaltılar</h2>
-        </div>
-        <div class="items">
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Serpme Kahvaltı <span class="price">140 TL</span></h3>
-              <p>Yerel ürünlerle zenginleştirilmiş iki kişilik serpme kahvaltı.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Mini Kahvaltı Tabağı <span class="price">95 TL</span></h3>
-              <p>Tek kişilik pratik kahvaltı seçeneği, sıcak/soğuk eşlikçilerle.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Gözleme Menü <span class="price">105 TL</span></h3>
-              <p>Seçeceğiniz gözleme + çay ikramı ile hafif bir başlangıç.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="screen" id="ozel">
-      <div class="menu-section">
-        <div class="section-header">
-          <button class="back-button" data-back="home">Geri dön</button>
-          <h2>Şefin Önerisi</h2>
-        </div>
-        <div class="items">
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Haftanın Böreği <span class="price">Günlük</span></h3>
-              <p>Sezonluk malzemelerle hazırlanan sürpriz tarifler için servis ekibimize danışın.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Günün Tatlısı <span class="price">Günlük</span></h3>
-              <p>Her gün yenilenen özel tatlı seçeneğimiz sınırlı sayıda sunulur.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-          <article class="item-card">
-            <div class="item-info">
-              <h3>Demleme Özel Çay <span class="price">Günlük</span></h3>
-              <p>Mevsim bitkileriyle harmanlanan özel demleme çay deneyimi.</p>
-            </div>
-            <div class="item-photo"><span>Fotoğraf alanı</span></div>
-          </article>
-        </div>
-      </div>
-    </section>
   </main>
 
   <script>
+    const menuStructure = [
+      {
+        id: 'borekler',
+        title: 'Börekler',
+        items: [
+          {
+            name: 'Peynirli Börek',
+            price: '45 TL',
+            description: 'El açması hamuruyla günlük hazırlanan klasik peynirli böreğimiz.'
+          },
+          {
+            name: 'Ispanaklı Börek',
+            price: '48 TL',
+            description: 'Taze ıspanak ve lor peynirinin hafifliğiyle favori öğününüz.'
+          },
+          {
+            name: 'Patatesli Börek',
+            price: '46 TL',
+            description: 'Karamelize soğan ve baharatlarla zenginleşen nefis patatesli iç harç.'
+          }
+        ]
+      },
+      {
+        id: 'tatlilar',
+        title: 'Tatlılar',
+        items: [
+          {
+            name: 'Fıstıklı Baklava',
+            price: '75 TL',
+            description: 'Kat kat açılmış ince hamur ve Gaziantep fıstığı ile hazırlanan klasik lezzet.'
+          },
+          {
+            name: 'Sütlaç',
+            price: '50 TL',
+            description: 'Fırında hafifçe kızartılmış üzeriyle kıvamlı ve ferahlatıcı tat.'
+          },
+          {
+            name: 'Günlük Tatlı',
+            price: '55 TL',
+            description: 'Günlük değişen tatlı alternatifleri için servis ekibimize danışın.'
+          }
+        ]
+      },
+      {
+        id: 'icecekler',
+        title: 'İçecekler',
+        items: [
+          {
+            name: 'Çay',
+            price: '18 TL',
+            description: 'Gün boyu taze demlenen kıvamlı Karadeniz çayımız.'
+          },
+          {
+            name: 'Dibek Kahvesi',
+            price: '48 TL',
+            description: 'Geleneksel yöntemlerle öğütülmüş aromatik dibek kahvesi.'
+          },
+          {
+            name: 'Soğuk Limonata',
+            price: '42 TL',
+            description: 'Taze sıkılmış limon ve nane ile hazırlanan ferah içecek.'
+          }
+        ]
+      },
+      {
+        id: 'kahvalti',
+        title: 'Kahvaltılar',
+        items: [
+          {
+            name: 'Serpme Kahvaltı',
+            price: '140 TL',
+            description: 'Yerel ürünlerle zenginleştirilmiş iki kişilik serpme kahvaltı.'
+          },
+          {
+            name: 'Mini Kahvaltı Tabağı',
+            price: '95 TL',
+            description: 'Tek kişilik pratik kahvaltı seçeneği, sıcak/soğuk eşlikçilerle.'
+          },
+          {
+            name: 'Gözleme Menü',
+            price: '105 TL',
+            description: 'Seçeceğiniz gözleme + çay ikramı ile hafif bir başlangıç.'
+          }
+        ]
+      },
+      {
+        id: 'ozel',
+        title: 'Şefin Önerisi',
+        items: [
+          {
+            name: 'Haftanın Böreği',
+            price: 'Günlük',
+            description: 'Sezonluk malzemelerle hazırlanan sürpriz tarifler için servis ekibimize danışın.'
+          },
+          {
+            name: 'Günün Tatlısı',
+            price: 'Günlük',
+            description: 'Her gün yenilenen özel tatlı seçeneğimiz sınırlı sayıda sunulur.'
+          },
+          {
+            name: 'Demleme Özel Çay',
+            price: 'Günlük',
+            description: 'Mevsim bitkileriyle harmanlanan özel demleme çay deneyimi.'
+          }
+        ]
+      }
+    ];
+
+    const main = document.querySelector('main');
     const homeScreen = document.getElementById('home');
+
+    menuStructure.forEach(sectionData => {
+      main.appendChild(buildMenuSection(sectionData));
+    });
+
     const screens = document.querySelectorAll('.screen');
     const menuCards = document.querySelectorAll('.menu-card[data-target]');
     const backButtons = document.querySelectorAll('.back-button');
@@ -519,6 +475,7 @@
         const targetId = card.dataset.target;
         switchScreen(targetId);
       });
+      enhancePressFeedback(card);
     });
 
     backButtons.forEach(button => {
@@ -526,7 +483,84 @@
         const targetId = button.dataset.back;
         switchScreen(targetId);
       });
+      enhancePressFeedback(button);
     });
+
+    function buildMenuSection({ id, title, items }) {
+      const section = document.createElement('section');
+      section.className = 'screen';
+      section.id = id;
+      section.innerHTML = `
+        <div class="menu-section">
+          <div class="section-header">
+            <button class="back-button pressable" data-back="home">Geri dön</button>
+            <h2>${title}</h2>
+          </div>
+          <div class="items">
+            ${items.map(createItemMarkup).join('')}
+          </div>
+        </div>
+      `;
+      return section;
+    }
+
+    function createItemMarkup(item) {
+      return `
+        <article class="item-card">
+          <div class="item-info">
+            <h3>${item.name} <span class="price">${item.price}</span></h3>
+            <p>${item.description}</p>
+          </div>
+          <div class="item-photo"><span>Fotoğraf alanı</span></div>
+        </article>
+      `;
+    }
+
+    function enhancePressFeedback(element) {
+      const releaseDelay = 120;
+      let releaseTimer;
+
+      const activate = () => {
+        clearTimeout(releaseTimer);
+        element.classList.add('is-pressed');
+      };
+
+      const scheduleRelease = () => {
+        clearTimeout(releaseTimer);
+        releaseTimer = setTimeout(() => {
+          element.classList.remove('is-pressed');
+        }, releaseDelay);
+      };
+
+      if ('PointerEvent' in window) {
+        element.addEventListener('pointerdown', event => {
+          if (event.pointerType === 'mouse' && event.button !== 0) return;
+          activate();
+        });
+        element.addEventListener('pointerup', scheduleRelease);
+        element.addEventListener('pointerleave', scheduleRelease);
+        element.addEventListener('pointercancel', scheduleRelease);
+      } else {
+        element.addEventListener('touchstart', activate, { passive: true });
+        element.addEventListener('touchend', scheduleRelease);
+        element.addEventListener('touchcancel', scheduleRelease);
+        element.addEventListener('mousedown', event => {
+          if (event.button !== 0) return;
+          activate();
+        });
+        element.addEventListener('mouseup', scheduleRelease);
+        element.addEventListener('mouseleave', scheduleRelease);
+      }
+
+      element.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          activate();
+        }
+      });
+
+      element.addEventListener('keyup', scheduleRelease);
+      element.addEventListener('blur', scheduleRelease);
+    }
 
     function switchScreen(targetId) {
       screens.forEach(section => section.classList.remove('active'));
@@ -540,4 +574,3 @@
   </script>
 </body>
 </html>
-
