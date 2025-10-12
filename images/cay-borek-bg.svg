@@ -1,81 +1,89 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
   <defs>
-    <linearGradient id="trayBase" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2f2f32" />
-      <stop offset="100%" stop-color="#19191c" />
+    <linearGradient id="backdrop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b0c10" />
+      <stop offset="100%" stop-color="#11141b" />
     </linearGradient>
-    <radialGradient id="borekGlow" cx="50%" cy="45%" r="70%">
-      <stop offset="0%" stop-color="#fdf4d9" stop-opacity="0.6" />
-      <stop offset="70%" stop-color="#f4d491" stop-opacity="0.3" />
-      <stop offset="100%" stop-color="#f2c879" stop-opacity="0.18" />
+    <linearGradient id="pastry" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f9d689" />
+      <stop offset="0.45" stop-color="#e7a253" />
+      <stop offset="1" stop-color="#c46b26" />
+    </linearGradient>
+    <radialGradient id="pastryGlow" cx="0.5" cy="0.32" r="0.85">
+      <stop offset="0%" stop-color="#ffe9bc" stop-opacity="0.8" />
+      <stop offset="55%" stop-color="#f5bd63" stop-opacity="0.34" />
+      <stop offset="100%" stop-color="#d78231" stop-opacity="0.05" />
     </radialGradient>
-    <linearGradient id="borekSurface" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f8c774" />
-      <stop offset="45%" stop-color="#efac4f" />
-      <stop offset="100%" stop-color="#d78931" />
+    <linearGradient id="cutLight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(255, 237, 201, 0.75)" />
+      <stop offset="100%" stop-color="rgba(255, 196, 122, 0.12)" />
     </linearGradient>
-    <linearGradient id="borekEdge" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#8b4f21" />
-      <stop offset="100%" stop-color="#5b2d10" />
+    <linearGradient id="cutShadow" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(108, 52, 11, 0.4)" />
+      <stop offset="100%" stop-color="rgba(194, 112, 35, 0.1)" />
     </linearGradient>
-    <radialGradient id="sheen" cx="0.22" cy="0.18" r="0.8">
-      <stop offset="0%" stop-color="#ffe9b8" stop-opacity="0.8" />
-      <stop offset="100%" stop-color="#ffd37a" stop-opacity="0" />
+    <radialGradient id="vignette" cx="0.5" cy="0.5" r="0.8">
+      <stop offset="60%" stop-color="rgba(0,0,0,0)" />
+      <stop offset="100%" stop-color="rgba(4,5,7,0.45)" />
     </radialGradient>
-    <filter id="subtleNoise" x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" seed="17" result="noise" />
-      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0.75 0 0 0 0 0.54 0 0 0 0 0.36 0 0 0 0.16 0" />
-      <feBlend in="SourceGraphic" in2="noise" mode="soft-light" />
+    <filter id="crumbNoise" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.12" numOctaves="4" seed="52" result="noise" />
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0.92 0 0 0 0 0.62 0 0 0 0 0.34 0 0 0 0.12 0" result="warmNoise" />
+      <feBlend in="SourceGraphic" in2="warmNoise" mode="soft-light" />
     </filter>
   </defs>
 
-  <rect width="1600" height="900" fill="url(#trayBase)" />
+  <rect width="1600" height="900" fill="url(#backdrop)" />
 
-  <g transform="translate(120 70)">
-    <rect x="-40" y="-30" width="1440" height="860" rx="110" fill="#0f0f12" opacity="0.55" />
-    <rect x="-14" y="-10" width="1390" height="820" rx="95" fill="#1f1f22" opacity="0.55" />
+  <g filter="url(#crumbNoise)">
+    <rect width="1600" height="900" fill="url(#pastry)" />
+    <rect width="1600" height="900" fill="url(#pastryGlow)" />
 
-    <g filter="url(#subtleNoise)">
-      <rect x="0" y="0" width="1360" height="780" rx="80" fill="url(#borekSurface)" />
-      <rect x="0" y="0" width="1360" height="780" rx="80" fill="url(#borekGlow)" />
-      <path d="M0 710 Q680 790 1360 710 L1360 780 Q680 860 0 780 Z" fill="#c7772d" opacity="0.35" />
-      <path d="M0 80 Q680 0 1360 80 L1360 0 Q680 -70 0 0 Z" fill="#ffe6a6" opacity="0.3" />
+    <path d="M0 700 Q800 820 1600 700 L1600 900 Q800 980 0 900 Z" fill="rgba(166, 83, 22, 0.35)" />
+    <path d="M0 200 Q800 80 1600 200 L1600 0 Q800 -80 0 0 Z" fill="rgba(255, 233, 187, 0.32)" />
 
-      <g stroke="rgba(139,79,33,0.7)" stroke-width="12" stroke-linecap="round">
-        <path d="M80 -20 L1400 820" />
-        <path d="M-80 -40 L1280 820" />
-        <path d="M-160 20 L1120 820" />
-        <path d="M-200 120 L960 820" />
-        <path d="M-200 260 L780 820" />
-        <path d="M-140 360 L600 820" />
-        <path d="M-60 440 L420 820" />
-        <path d="M120 460 L240 820" />
-
-        <path d="M280 -80 L1520 760" />
-        <path d="M440 -100 L1520 580" />
-        <path d="M600 -100 L1520 400" />
-        <path d="M760 -80 L1520 220" />
-        <path d="M920 -40 L1520 40" />
-        <path d="M1080 20 L1460 -80" />
-      </g>
-
-      <g stroke="rgba(255,209,134,0.28)" stroke-width="10" stroke-linecap="round">
-        <path d="M140 -70 L1520 800" />
-        <path d="M-120 -20 L1180 820" />
-        <path d="M-200 120 L960 840" />
-        <path d="M320 -120 L1560 640" />
-        <path d="M520 -140 L1560 420" />
-      </g>
-
-      <rect x="0" y="0" width="1360" height="780" rx="80" fill="none" stroke="url(#borekEdge)" stroke-width="22" />
-      <rect x="18" y="18" width="1324" height="744" rx="68" fill="none" stroke="rgba(255,234,192,0.5)" stroke-width="12" />
-      <rect x="45" y="45" width="1270" height="690" rx="52" fill="url(#sheen)" opacity="0.4" />
+    <g stroke="url(#cutShadow)" stroke-width="14" stroke-linecap="round">
+      <path d="M-320 260 L1320 1020" />
+      <path d="M-220 160 L1420 920" />
+      <path d="M-120 60 L1520 820" />
+      <path d="M-20 -40 L1620 720" />
+      <path d="M80 -140 L1720 620" />
+      <path d="M180 -240 L1820 520" />
+      <path d="M280 -340 L1920 420" />
     </g>
 
-    <g opacity="0.25">
-      <path d="M280 520 Q320 480 360 520 T440 520 T520 520" fill="none" stroke="#ffe9c7" stroke-width="16" stroke-linecap="round" />
-      <path d="M920 260 Q960 220 1000 260 T1080 260 T1160 260" fill="none" stroke="#ffefcf" stroke-width="20" stroke-linecap="round" />
-      <path d="M560 360 Q600 320 640 360 T720 360 T800 360" fill="none" stroke="#ffe0b0" stroke-width="14" stroke-linecap="round" />
+    <g stroke="url(#cutShadow)" stroke-width="14" stroke-linecap="round">
+      <path d="M280 940 L1920 340" />
+      <path d="M180 840 L1820 240" />
+      <path d="M80 740 L1720 140" />
+      <path d="M-20 640 L1620 40" />
+      <path d="M-120 540 L1520 -60" />
+      <path d="M-220 440 L1420 -160" />
+      <path d="M-320 340 L1320 -260" />
     </g>
+
+    <g stroke="url(#cutLight)" stroke-width="8" stroke-linecap="round" opacity="0.82">
+      <path d="M-260 280 L1380 1040" />
+      <path d="M-160 180 L1480 940" />
+      <path d="M-60 80 L1580 840" />
+      <path d="M40 -20 L1680 740" />
+      <path d="M140 -120 L1780 640" />
+    </g>
+
+    <g stroke="url(#cutLight)" stroke-width="8" stroke-linecap="round" opacity="0.78">
+      <path d="M260 900 L1900 300" />
+      <path d="M160 800 L1800 200" />
+      <path d="M60 700 L1700 100" />
+      <path d="M-40 600 L1600 0" />
+      <path d="M-140 500 L1500 -100" />
+    </g>
+
+    <rect width="1600" height="900" fill="url(#vignette)" />
+  </g>
+
+  <g opacity="0.18">
+    <path d="M420 560 Q460 510 500 560 T580 560 T660 560" fill="none" stroke="#ffe6bd" stroke-width="18" stroke-linecap="round" />
+    <path d="M1020 360 Q1060 310 1100 360 T1180 360 T1260 360" fill="none" stroke="#ffdca0" stroke-width="20" stroke-linecap="round" />
+    <path d="M720 450 Q760 400 800 450 T880 450 T960 450" fill="none" stroke="#ffe9c8" stroke-width="16" stroke-linecap="round" />
   </g>
 </svg>
