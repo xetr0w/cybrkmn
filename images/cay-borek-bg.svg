@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="table" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a3d2a" />
+      <stop offset="100%" stop-color="#3e271b" />
+    </linearGradient>
+    <radialGradient id="plateGlow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#fdf7ee" />
+      <stop offset="100%" stop-color="#dbcfc2" />
+    </radialGradient>
+    <linearGradient id="borekShade" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f9ca66" />
+      <stop offset="45%" stop-color="#f2b34e" />
+      <stop offset="100%" stop-color="#d28a2f" />
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#table)" />
+  <g opacity="0.22">
+    <circle cx="700" cy="440" r="390" fill="#f6eade" />
+    <circle cx="700" cy="440" r="355" fill="#fbf2e7" />
+  </g>
+  <circle cx="700" cy="440" r="330" fill="url(#plateGlow)" stroke="#efe7db" stroke-width="28" />
+  <g opacity="0.94">
+    <g transform="translate(0,-10)">
+      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="560,340 680,320 720,420 600,440" />
+      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="720,330 850,320 870,420 740,430" />
+      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="600,450 730,440 750,550 620,560" />
+      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="760,450 890,440 910,540 780,560" />
+      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="660,520 780,500 800,600 680,620" />
+      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="520,480 630,470 650,560 540,570" />
+      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="820,360 930,350 950,440 840,450" />
+      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="500,400 600,390 620,470 520,480" />
+      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="700,370 810,360 830,450 720,460" />
+    </g>
+  </g>
+  <g fill="#ffe7b5" opacity="0.35">
+    <ellipse cx="650" cy="360" rx="120" ry="35" />
+    <ellipse cx="840" cy="380" rx="130" ry="32" />
+    <ellipse cx="610" cy="500" rx="120" ry="34" />
+    <ellipse cx="820" cy="530" rx="130" ry="36" />
+  </g>
+</svg>
