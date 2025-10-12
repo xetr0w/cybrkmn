@@ -3,173 +3,573 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kafe Menü</title>
+  <title>Çay Börek | QR Menü</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&display=swap');
+
+    :root {
+      --bg-overlay: rgba(24, 20, 16, 0.58);
+      --accent: #f3a712;
+      --accent-dark: #c77d0a;
+      --cream: #f9f3ea;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --text-primary: #301b18;
+      --text-secondary: rgba(48, 27, 24, 0.75);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background-color: #fdfbf7; /* krem */
-      color: #3b2f2f; /* koyu kahverengi */
+      font-family: 'Montserrat', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--text-primary);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    body::before {
+      background: url('images/borek-arka-plan.jpg') center/cover no-repeat;
+      filter: blur(18px);
+      transform: scale(1.08);
+      transform-origin: center;
+      will-change: transform;
+      opacity: 0.9;
+    }
+
+    body::after {
+      background: linear-gradient(var(--bg-overlay), var(--bg-overlay));
+      z-index: -1;
+    }
+
+    main {
+      position: relative;
+      z-index: 0;
+    }
+
+    .screen {
+      position: relative;
+      min-height: 100vh;
+      padding: 28px 20px 64px;
+      display: none;
+      backdrop-filter: none;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
 
     header {
-      background-color: #d2b48c; /* ahşap bej tonu */
-      color: #fff;
       text-align: center;
-      padding: 20px;
+      color: #fff7ea;
     }
 
-    header h1 {
+    header .brand {
+      font-family: 'Great Vibes', 'Playfair Display', "Times New Roman", serif;
+      font-size: clamp(44px, 10vw, 68px);
+      letter-spacing: 0.05em;
+      margin: 0 0 6px;
+    }
+
+    header .tagline {
       margin: 0;
-      font-size: 28px;
+      font-size: 15px;
+      letter-spacing: 0.12em;
     }
 
-    .container {
-      max-width: 700px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .category {
-      display: block;
-      background: #fff8f0;
-      border: 1px solid #e0d5c3;
-      border-radius: 10px;
-      margin: 15px 0;
-      padding: 20px;
-      font-size: 22px;
-      text-align: center;
-      text-decoration: none;
-      color: #3b2f2f;
-      font-weight: bold;
-      transition: all 0.2s ease;
-    }
-
-    .category:hover {
-      background: #f2e4d3;
-      transform: scale(1.02);
-    }
-
-    .back {
-      display: inline-block;
-      margin-bottom: 20px;
-      text-decoration: none;
-      color: #3b2f2f;
-      font-size: 16px;
-    }
-
-    .menu-item {
-      background: #fff;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 15px 0;
-      border: 1px solid #e0d5c3;
+    .menu-grid {
       display: flex;
       flex-direction: column;
+      gap: 16px;
     }
 
-    .menu-top {
-      display: flex;
-      justify-content: space-between;
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .menu-photo {
-      background-color: #f0e6da; /* fotoğraf alanı için boş kutu */
-      border-radius: 8px;
-      height: 120px;
+    .menu-card {
+      position: relative;
+      border-radius: 20px;
+      padding: 18px 20px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: #8b5e3c;
+      justify-content: space-between;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 220, 0.85));
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      overflow: hidden;
+      min-height: 92px;
+      touch-action: manipulation;
+    }
+
+    .menu-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(243, 167, 18, 0.32), transparent 65%);
+      pointer-events: none;
+    }
+
+    .menu-card .title {
+      position: relative;
+      z-index: 1;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .menu-card .indicator {
+      position: relative;
+      z-index: 1;
       font-size: 14px;
-      font-style: italic;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .menu-card:hover,
+      .menu-card:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
+      }
+    }
+
+    .menu-card:active,
+    .menu-card.is-pressed {
+      transform: translateY(0) scale(0.97);
+      box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18), inset 0 2px 6px rgba(255, 255, 255, 0.4);
+    }
+
+    .menu-card[aria-disabled="true"] {
+      opacity: 0.55;
+      box-shadow: none;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .menu-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 16px;
+      border-radius: 28px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .back-button {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--text-primary);
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      touch-action: manipulation;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .back-button:hover,
+      .back-button:focus-visible {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
+        background: rgba(255, 255, 255, 0.85);
+      }
+    }
+
+    .back-button:active,
+    .back-button.is-pressed {
+      transform: translateY(0) scale(0.96);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.16);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: 26px;
+      color: var(--text-primary);
+    }
+
+    .items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-bottom: 8px;
+    }
+
+    .item-card {
+      background: #fffdf8;
+      border-radius: 20px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 112px;
+      gap: 14px;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
+    }
+
+    .item-info h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
     }
 
     .price {
-      font-weight: bold;
-      color: #8b5e3c;
+      color: var(--accent-dark);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .item-info p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .item-photo {
+      border-radius: 16px;
+      background: repeating-linear-gradient(135deg, rgba(243, 167, 18, 0.2) 0 18px, rgba(255, 255, 255, 0.7) 18px 36px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--accent-dark);
+      text-align: center;
+      padding: 12px;
+    }
+
+    .item-photo span {
+      display: block;
+    }
+
+    .note {
+      font-size: 13px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    @media (min-width: 768px) {
+      .screen {
+        padding: 48px 80px;
+        background-attachment: fixed;
+      }
+
+      .menu-grid {
+        max-width: 560px;
+        margin: 0 auto;
+      }
+
+      .menu-card {
+        padding: 22px 28px;
+      }
+
+      .menu-section {
+        max-width: 820px;
+        margin: 0 auto;
+      }
+
+      .item-card {
+        grid-template-columns: minmax(0, 1fr) 160px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🍴 Kafe Menü</h1>
-  </header>
+  <main>
+    <section class="screen active" id="home">
+      <header>
+        <h1 class="brand">Çay Börek</h1>
+        <p class="tagline">Geleneksel lezzetlere modern dokunuş</p>
+      </header>
 
-  <!-- Ana Sayfa -->
-  <div class="container" id="main">
-    <a href="#borekler" class="category">🥐 Börekler</a>
-    <a href="#icecekler" class="category">🥤 İçecekler</a>
-    <a href="#tatlilar" class="category">🍰 Tatlılar</a>
-  </div>
+      <div class="menu-grid">
+        <a class="menu-card pressable" data-target="borekler" href="#borekler">
+          <span class="title">Börekler</span>
+          <span class="indicator">Menüye git</span>
+        </a>
+        <a class="menu-card pressable" data-target="tatlilar" href="#tatlilar">
+          <span class="title">Tatlılar</span>
+          <span class="indicator">Menüye git</span>
+        </a>
+        <a class="menu-card pressable" data-target="icecekler" href="#icecekler">
+          <span class="title">İçecekler</span>
+          <span class="indicator">Menüye git</span>
+        </a>
+        <a class="menu-card pressable" data-target="kahvalti" href="#kahvalti">
+          <span class="title">Kahvaltılar</span>
+          <span class="indicator">Menüye git</span>
+        </a>
+        <a class="menu-card pressable" data-target="ozel" href="#ozel">
+          <span class="title">Şefin Önerisi</span>
+          <span class="indicator">Menüye git</span>
+        </a>
+        <a class="menu-card" href="#" aria-disabled="true">
+          <span class="title">Yeni Bölüm</span>
+          <span class="indicator">Yakında</span>
+        </a>
+      </div>
 
-  <!-- Börekler -->
-  <div class="container" id="borekler" style="display:none;">
-    <a href="#" class="back" onclick="goBack()">← Geri</a>
-    <h2>🥐 Börekler</h2>
-
-    <div class="menu-item">
-      <div class="menu-top"><span>Peynirli Börek</span><span class="price">40 TL</span></div>
-      <div class="menu-photo">Fotoğraf eklenecek</div>
-    </div>
-
-    <div class="menu-item">
-      <div class="menu-top"><span>Ispanaklı Börek</span><span class="price">45 TL</span></div>
-      <div class="menu-photo">Fotoğraf eklenecek</div>
-    </div>
-  </div>
-
-  <!-- İçecekler -->
-  <div class="container" id="icecekler" style="display:none;">
-    <a href="#" class="back" onclick="goBack()">← Geri</a>
-    <h2>🥤 İçecekler</h2>
-
-    <div class="menu-item">
-      <div class="menu-top"><span>Çay</span><span class="price">15 TL</span></div>
-      <div class="menu-photo">Fotoğraf eklenecek</div>
-    </div>
-
-    <div class="menu-item">
-      <div class="menu-top"><span>Kahve</span><span class="price">40 TL</span></div>
-      <div class="menu-photo">Fotoğraf eklenecek</div>
-    </div>
-  </div>
-
-  <!-- Tatlılar -->
-  <div class="container" id="tatlilar" style="display:none;">
-    <a href="#" class="back" onclick="goBack()">← Geri</a>
-    <h2>🍰 Tatlılar</h2>
-
-    <div class="menu-item">
-      <div class="menu-top"><span>Tiramisu</span><span class="price">70 TL</span></div>
-      <div class="menu-photo">Fotoğraf eklenecek</div>
-    </div>
-
-    <div class="menu-item">
-      <div class="menu-top"><span>Sufle</span><span class="price">65 TL</span></div>
-      <div class="menu-photo">Fotoğraf eklenecek</div>
-    </div>
-  </div>
+      <p class="note">Arka plan için bulanık börek tabağı görselinizi <code>images/borek-arka-plan.jpg</code> olarak ekleyebilirsiniz.</p>
+    </section>
+  </main>
 
   <script>
-    const main = document.getElementById("main");
-    const sections = document.querySelectorAll(".container[id]");
+    const menuStructure = [
+      {
+        id: 'borekler',
+        title: 'Börekler',
+        items: [
+          {
+            name: 'Peynirli Börek',
+            price: '45 TL',
+            description: 'El açması hamuruyla günlük hazırlanan klasik peynirli böreğimiz.'
+          },
+          {
+            name: 'Ispanaklı Börek',
+            price: '48 TL',
+            description: 'Taze ıspanak ve lor peynirinin hafifliğiyle favori öğününüz.'
+          },
+          {
+            name: 'Patatesli Börek',
+            price: '46 TL',
+            description: 'Karamelize soğan ve baharatlarla zenginleşen nefis patatesli iç harç.'
+          }
+        ]
+      },
+      {
+        id: 'tatlilar',
+        title: 'Tatlılar',
+        items: [
+          {
+            name: 'Fıstıklı Baklava',
+            price: '75 TL',
+            description: 'Kat kat açılmış ince hamur ve Gaziantep fıstığı ile hazırlanan klasik lezzet.'
+          },
+          {
+            name: 'Sütlaç',
+            price: '50 TL',
+            description: 'Fırında hafifçe kızartılmış üzeriyle kıvamlı ve ferahlatıcı tat.'
+          },
+          {
+            name: 'Günlük Tatlı',
+            price: '55 TL',
+            description: 'Günlük değişen tatlı alternatifleri için servis ekibimize danışın.'
+          }
+        ]
+      },
+      {
+        id: 'icecekler',
+        title: 'İçecekler',
+        items: [
+          {
+            name: 'Çay',
+            price: '18 TL',
+            description: 'Gün boyu taze demlenen kıvamlı Karadeniz çayımız.'
+          },
+          {
+            name: 'Dibek Kahvesi',
+            price: '48 TL',
+            description: 'Geleneksel yöntemlerle öğütülmüş aromatik dibek kahvesi.'
+          },
+          {
+            name: 'Soğuk Limonata',
+            price: '42 TL',
+            description: 'Taze sıkılmış limon ve nane ile hazırlanan ferah içecek.'
+          }
+        ]
+      },
+      {
+        id: 'kahvalti',
+        title: 'Kahvaltılar',
+        items: [
+          {
+            name: 'Serpme Kahvaltı',
+            price: '140 TL',
+            description: 'Yerel ürünlerle zenginleştirilmiş iki kişilik serpme kahvaltı.'
+          },
+          {
+            name: 'Mini Kahvaltı Tabağı',
+            price: '95 TL',
+            description: 'Tek kişilik pratik kahvaltı seçeneği, sıcak/soğuk eşlikçilerle.'
+          },
+          {
+            name: 'Gözleme Menü',
+            price: '105 TL',
+            description: 'Seçeceğiniz gözleme + çay ikramı ile hafif bir başlangıç.'
+          }
+        ]
+      },
+      {
+        id: 'ozel',
+        title: 'Şefin Önerisi',
+        items: [
+          {
+            name: 'Haftanın Böreği',
+            price: 'Günlük',
+            description: 'Sezonluk malzemelerle hazırlanan sürpriz tarifler için servis ekibimize danışın.'
+          },
+          {
+            name: 'Günün Tatlısı',
+            price: 'Günlük',
+            description: 'Her gün yenilenen özel tatlı seçeneğimiz sınırlı sayıda sunulur.'
+          },
+          {
+            name: 'Demleme Özel Çay',
+            price: 'Günlük',
+            description: 'Mevsim bitkileriyle harmanlanan özel demleme çay deneyimi.'
+          }
+        ]
+      }
+    ];
 
-    document.querySelectorAll(".category").forEach(link => {
-      link.addEventListener("click", e => {
-        e.preventDefault();
-        main.style.display = "none";
-        const target = document.querySelector(link.getAttribute("href"));
-        target.style.display = "block";
-      });
+    const main = document.querySelector('main');
+    const homeScreen = document.getElementById('home');
+
+    menuStructure.forEach(sectionData => {
+      main.appendChild(buildMenuSection(sectionData));
     });
 
-    function goBack() {
-      sections.forEach(sec => sec.style.display = "none");
-      main.style.display = "block";
+    const screens = document.querySelectorAll('.screen');
+    const menuCards = document.querySelectorAll('.menu-card[data-target]');
+    const backButtons = document.querySelectorAll('.back-button');
+
+    menuCards.forEach(card => {
+      card.addEventListener('click', event => {
+        event.preventDefault();
+        const targetId = card.dataset.target;
+        switchScreen(targetId);
+      });
+      enhancePressFeedback(card);
+    });
+
+    backButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.dataset.back;
+        switchScreen(targetId);
+      });
+      enhancePressFeedback(button);
+    });
+
+    function buildMenuSection({ id, title, items }) {
+      const section = document.createElement('section');
+      section.className = 'screen';
+      section.id = id;
+      section.innerHTML = `
+        <div class="menu-section">
+          <div class="section-header">
+            <button class="back-button pressable" data-back="home">Geri dön</button>
+            <h2>${title}</h2>
+          </div>
+          <div class="items">
+            ${items.map(createItemMarkup).join('')}
+          </div>
+        </div>
+      `;
+      return section;
+    }
+
+    function createItemMarkup(item) {
+      return `
+        <article class="item-card">
+          <div class="item-info">
+            <h3>${item.name} <span class="price">${item.price}</span></h3>
+            <p>${item.description}</p>
+          </div>
+          <div class="item-photo"><span>Fotoğraf alanı</span></div>
+        </article>
+      `;
+    }
+
+    function enhancePressFeedback(element) {
+      const releaseDelay = 120;
+      let releaseTimer;
+
+      const activate = () => {
+        clearTimeout(releaseTimer);
+        element.classList.add('is-pressed');
+      };
+
+      const scheduleRelease = () => {
+        clearTimeout(releaseTimer);
+        releaseTimer = setTimeout(() => {
+          element.classList.remove('is-pressed');
+        }, releaseDelay);
+      };
+
+      if ('PointerEvent' in window) {
+        element.addEventListener('pointerdown', event => {
+          if (event.pointerType === 'mouse' && event.button !== 0) return;
+          activate();
+        });
+        element.addEventListener('pointerup', scheduleRelease);
+        element.addEventListener('pointerleave', scheduleRelease);
+        element.addEventListener('pointercancel', scheduleRelease);
+      } else {
+        element.addEventListener('touchstart', activate, { passive: true });
+        element.addEventListener('touchend', scheduleRelease);
+        element.addEventListener('touchcancel', scheduleRelease);
+        element.addEventListener('mousedown', event => {
+          if (event.button !== 0) return;
+          activate();
+        });
+        element.addEventListener('mouseup', scheduleRelease);
+        element.addEventListener('mouseleave', scheduleRelease);
+      }
+
+      element.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          activate();
+        }
+      });
+
+      element.addEventListener('keyup', scheduleRelease);
+      element.addEventListener('blur', scheduleRelease);
+    }
+
+    function switchScreen(targetId) {
+      screens.forEach(section => section.classList.remove('active'));
+      const targetScreen = document.getElementById(targetId);
+      if (targetScreen) {
+        targetScreen.classList.add('active');
+      } else {
+        homeScreen.classList.add('active');
+      }
     }
   </script>
 </body>
