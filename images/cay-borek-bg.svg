@@ -1,42 +1,81 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
   <defs>
-    <linearGradient id="table" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#5a3d2a" />
-      <stop offset="100%" stop-color="#3e271b" />
+    <linearGradient id="trayBase" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2f2f32" />
+      <stop offset="100%" stop-color="#19191c" />
     </linearGradient>
-    <radialGradient id="plateGlow" cx="50%" cy="45%" r="60%">
-      <stop offset="0%" stop-color="#fdf7ee" />
-      <stop offset="100%" stop-color="#dbcfc2" />
+    <radialGradient id="borekGlow" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#fdf4d9" stop-opacity="0.6" />
+      <stop offset="70%" stop-color="#f4d491" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#f2c879" stop-opacity="0.18" />
     </radialGradient>
-    <linearGradient id="borekShade" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f9ca66" />
-      <stop offset="45%" stop-color="#f2b34e" />
-      <stop offset="100%" stop-color="#d28a2f" />
+    <linearGradient id="borekSurface" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8c774" />
+      <stop offset="45%" stop-color="#efac4f" />
+      <stop offset="100%" stop-color="#d78931" />
     </linearGradient>
+    <linearGradient id="borekEdge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8b4f21" />
+      <stop offset="100%" stop-color="#5b2d10" />
+    </linearGradient>
+    <radialGradient id="sheen" cx="0.22" cy="0.18" r="0.8">
+      <stop offset="0%" stop-color="#ffe9b8" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#ffd37a" stop-opacity="0" />
+    </radialGradient>
+    <filter id="subtleNoise" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" seed="17" result="noise" />
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0.75 0 0 0 0 0.54 0 0 0 0 0.36 0 0 0 0.16 0" />
+      <feBlend in="SourceGraphic" in2="noise" mode="soft-light" />
+    </filter>
   </defs>
-  <rect width="1400" height="900" fill="url(#table)" />
-  <g opacity="0.22">
-    <circle cx="700" cy="440" r="390" fill="#f6eade" />
-    <circle cx="700" cy="440" r="355" fill="#fbf2e7" />
-  </g>
-  <circle cx="700" cy="440" r="330" fill="url(#plateGlow)" stroke="#efe7db" stroke-width="28" />
-  <g opacity="0.94">
-    <g transform="translate(0,-10)">
-      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="560,340 680,320 720,420 600,440" />
-      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="720,330 850,320 870,420 740,430" />
-      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="600,450 730,440 750,550 620,560" />
-      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="760,450 890,440 910,540 780,560" />
-      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="660,520 780,500 800,600 680,620" />
-      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="520,480 630,470 650,560 540,570" />
-      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="820,360 930,350 950,440 840,450" />
-      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="500,400 600,390 620,470 520,480" />
-      <polygon fill="url(#borekShade)" stroke="#be7f2e" stroke-width="8" points="700,370 810,360 830,450 720,460" />
+
+  <rect width="1600" height="900" fill="url(#trayBase)" />
+
+  <g transform="translate(120 70)">
+    <rect x="-40" y="-30" width="1440" height="860" rx="110" fill="#0f0f12" opacity="0.55" />
+    <rect x="-14" y="-10" width="1390" height="820" rx="95" fill="#1f1f22" opacity="0.55" />
+
+    <g filter="url(#subtleNoise)">
+      <rect x="0" y="0" width="1360" height="780" rx="80" fill="url(#borekSurface)" />
+      <rect x="0" y="0" width="1360" height="780" rx="80" fill="url(#borekGlow)" />
+      <path d="M0 710 Q680 790 1360 710 L1360 780 Q680 860 0 780 Z" fill="#c7772d" opacity="0.35" />
+      <path d="M0 80 Q680 0 1360 80 L1360 0 Q680 -70 0 0 Z" fill="#ffe6a6" opacity="0.3" />
+
+      <g stroke="rgba(139,79,33,0.7)" stroke-width="12" stroke-linecap="round">
+        <path d="M80 -20 L1400 820" />
+        <path d="M-80 -40 L1280 820" />
+        <path d="M-160 20 L1120 820" />
+        <path d="M-200 120 L960 820" />
+        <path d="M-200 260 L780 820" />
+        <path d="M-140 360 L600 820" />
+        <path d="M-60 440 L420 820" />
+        <path d="M120 460 L240 820" />
+
+        <path d="M280 -80 L1520 760" />
+        <path d="M440 -100 L1520 580" />
+        <path d="M600 -100 L1520 400" />
+        <path d="M760 -80 L1520 220" />
+        <path d="M920 -40 L1520 40" />
+        <path d="M1080 20 L1460 -80" />
+      </g>
+
+      <g stroke="rgba(255,209,134,0.28)" stroke-width="10" stroke-linecap="round">
+        <path d="M140 -70 L1520 800" />
+        <path d="M-120 -20 L1180 820" />
+        <path d="M-200 120 L960 840" />
+        <path d="M320 -120 L1560 640" />
+        <path d="M520 -140 L1560 420" />
+      </g>
+
+      <rect x="0" y="0" width="1360" height="780" rx="80" fill="none" stroke="url(#borekEdge)" stroke-width="22" />
+      <rect x="18" y="18" width="1324" height="744" rx="68" fill="none" stroke="rgba(255,234,192,0.5)" stroke-width="12" />
+      <rect x="45" y="45" width="1270" height="690" rx="52" fill="url(#sheen)" opacity="0.4" />
     </g>
-  </g>
-  <g fill="#ffe7b5" opacity="0.35">
-    <ellipse cx="650" cy="360" rx="120" ry="35" />
-    <ellipse cx="840" cy="380" rx="130" ry="32" />
-    <ellipse cx="610" cy="500" rx="120" ry="34" />
-    <ellipse cx="820" cy="530" rx="130" ry="36" />
+
+    <g opacity="0.25">
+      <path d="M280 520 Q320 480 360 520 T440 520 T520 520" fill="none" stroke="#ffe9c7" stroke-width="16" stroke-linecap="round" />
+      <path d="M920 260 Q960 220 1000 260 T1080 260 T1160 260" fill="none" stroke="#ffefcf" stroke-width="20" stroke-linecap="round" />
+      <path d="M560 360 Q600 320 640 360 T720 360 T800 360" fill="none" stroke="#ffe0b0" stroke-width="14" stroke-linecap="round" />
+    </g>
   </g>
 </svg>
