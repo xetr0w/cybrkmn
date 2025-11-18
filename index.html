@@ -2,832 +2,500 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Çay Börek | QR Menü</title>
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=gSxcYvb-iTYA-l1nCTwUardhjsyhiSlDT3L5nfACbDLXUYQ6j4WyDRsplN5IzEcQ_PQRrCRo2-y9VB_D4oEjzTe0Dhtx-jzhsUfpnDNfbij3Ziubvj8MQlrqgA16eIVvktNb55ADBj4QNBX4Akxf8bUe6TQ61w4sqZHKtcDlj3GkICDLnFh5QS91rmVjKtLCBqC-VT8M_G8IzdhMG5_DfBfCfWsecJLEA1D7y8EmpfdFRQksX8FoTKzzz6SS_iwm" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZS04TXdNeXA3cUpBeFVTblNua1g2YnZNJnRzPTQ4OTU2MiZwPWZzJmNpZD0xJnNpZz05MzM2ZjhlYzhkMzEzODJkYmRlMzE3MDliZTRmNDNlNDkzNGI1ZTI0NGRlMGExNzAxNGFjMjY0YzY1NTUxNGU0JnY9MA"/><style>
-    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&display=swap');
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
-    /* === PALETTE: light and sweet like baklava === */
     :root {
-      /*
-        The visual identity of this page is driven by the colours found in the baklava photo.  
-        Instead of the previous dark, moody palette, we've chosen warm creams and golds with rich
-        brown accents.  These variables define the colour system used throughout the site.
-      */
-      --bg-overlay: rgba(255, 238, 210, 0.70);    /* creamy overlay tinted by golden syrup */
-      --accent: #d39a30;                          /* golden amber highlight inspired by baklava */
-      --accent-2: #b37222;                        /* deeper amber for subtle emphasis */
-      --cream: #faf3e1;                           /* soft cream base background */
-      --card-bg: rgba(255, 250, 233, 0.86);       /* light card glass with a hint of vanilla */
-      --text-primary: #3a280f;                    /* dark warm brown for high contrast on light backgrounds */
-      --text-secondary: rgba(58, 40, 19, 0.75);   /* softer secondary text colour */
-      --border: rgba(58, 40, 19, 0.10);           /* subtle borders matching dark brown text */
-      --shadow: 0 14px 34px rgba(0,0,0,.15);      /* lighter drop shadow for airy feel */
-      --shadow-press: 0 10px 26px rgba(0,0,0,.12);
+      --accent: #d39a30;
+      --card-bg: rgba(255, 250, 233, 0.92);
+      --text-primary: #3a280f;
+      --text-secondary: rgba(58, 40, 19, 0.75);
+      --border: rgba(58, 40, 19, 0.10);
+      /* Orijinal Gölge Ayarları */
+      --shadow-card: 0 10px 24px rgba(0,0,0,0.12);
+      --shadow-press: 0 2px 8px rgba(0, 0, 0, 0.10);
     }
 
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body {
-      font-family: 'Montserrat', 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--cream);
-      color: var(--text-primary);
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;height:100%;}
+
+    body{
+      font-family:'Montserrat',sans-serif;
+      color:var(--text-primary);
+      background-color:#f4dec0;
+      overflow: hidden; 
     }
 
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      /* Use the local baklava photo with a remote fallback so that the
-         background image appears even if the images folder is missing.  The
-         remote image will only be displayed when the local one cannot be
-         loaded. */
-      /* Use the local baklava photo as the primary background and provide a remote
-         fallback.  If the local image cannot be loaded (for example,
-         when the `images` folder is not present on the device), the
-         remote image will be used instead. */
-      /* Only use the remote baklava photo hosted on Imgur.  The local image
-         reference has been removed to ensure the background loads on any
-         device, even when the images folder isn't available. */
-      background-image: url('https://i.imgur.com/74SKUHT.jpeg');
+    /* === ARKAPLAN === */
+    .bg-layer {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      /* NOT: Verdiğin linkin sonuna .jpeg ekledim ki çalışsın */
+      background-image: url("https://i.imgur.com/3oYLLMe.png");
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
-      /* Reduce blur and saturation for better performance on low-powered
-         devices.  A subtle blur softens the background without
-         overtaxing the GPU. */
-      filter: blur(2px) saturate(1.02) brightness(0.96);
-      opacity: .80;
-      pointer-events:none;
-      z-index:-2;
+      z-index: -2;
+      transform: translate3d(0,0,0);
     }
-
-
-    html,
-    body {
-      overscroll-behavior: none;
-      overflow-x: hidden;
-      overflow-y: auto;
-      height:100%;
-    }
-
-
-
-    body::after {
-        content:"";
-        position:fixed;
-        inset:0;
-        background: linear-gradient(180deg,
-        rgba(255, 245, 230, 0.45),
-        rgba(255, 245, 230, 0.55)
-      );
-      background-blend-mode: normal;
+    
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,245,230,0.45), rgba(255,245,230,0.60));
       z-index: -1;
     }
 
-    main { position: relative; z-index: 0; }
-    main::before, main::after {
-      content: ""; position: fixed; inset: 0; pointer-events:none; z-index:-1;
-    }
-    main::before {
-      /* remove additional gradients so the baklava pattern remains visible */
-      background: none;
-      filter: none;
-    }
-    main::after {
-      /* remove subtle overlays for a cleaner look */
-      background: none;
-      mix-blend-mode: normal;
-      opacity: 1;
+    main {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 40px;
     }
 
-    .screen { position: relative; min-height: 100vh; padding: 28px 20px 64px; display: none; }
-    .screen.active { display: flex; flex-direction: column; gap: 24px; }
-
+    /* === HEADER & LOGO === */
     header {
       text-align: center;
-      color: var(--text-primary);
-      margin: 0 0 12px;
-      padding: 24px 20px 0;
+      padding: 24px 20px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      min-height: 180px;
     }
-    header .brand {
-      font-family: 'Great Vibes', 'Playfair Display', "Times New Roman", serif;
-      font-size: clamp(44px, 10vw, 68px);
-      letter-spacing: 0.04em;
-      margin: 0 0 6px;
-      /* a gentle shadow for readability on light backgrounds */
-      text-shadow: 0 2px 6px rgba(0,0,0,.12);
-      /* warm accent colour makes the logo feel sweet and inviting */
-      color: var(--accent-2);
-    }
-    header .tagline { margin: 0; font-size: 15px; letter-spacing: .12em; color: var(--text-secondary); }
 
-    /* Menu category cards (home) */
-    .menu-grid { display: flex; flex-direction: column; gap: 14px; }
+    .brand-logo {
+      width: min(70vw, 340px);
+      height: auto;
+      display: block;
+      opacity: 0;
+      will-change: transform, opacity;
+      transform: translate3d(0, 20vh, 0) scale(0.8);
+    }
+
+    .brand-logo.animate-in {
+      animation: logo-slide-up 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
+    /* Glow efektini yorum satırı yaptım, mobilde kasmasın diye */
+    .brand-logo.loaded {
+      /* filter: drop-shadow(0 0 15px rgba(255,255,255,0.6)); */
+    }
+
+    @keyframes logo-slide-up {
+      to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+    }
+
+    .tagline {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin-top: 12px;
+      opacity: 0; 
+    }
+
+    /* === SCREENS === */
+    .screen {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      padding: 10px 20px 60px;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .screen.active {
+      display: flex;
+    }
+
+    /* === MENÜ KARTLARI (ESKİ DOLGUN TASARIM) === */
+    .menu-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px; /* Aralarını biraz açtık */
+    }
+
     .menu-card {
       position: relative;
+      width: 100%; /* Tam genişlik */
+      min-height: 96px; /* Eski dolgun yükseklik */
       border-radius: 18px;
-      padding: 18px 20px;
+      padding: 0 24px;
+      
       display: flex;
       align-items: center;
       justify-content: space-between;
-      /* light, creamy gradient reminiscent of pastry and honey */
-      background: linear-gradient(135deg, rgba(255, 240, 210, .95), rgba(245, 230, 200, .90));
-      box-shadow: var(--shadow);
+      
+      background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(0,0,0,0.06);
+      
       text-decoration: none;
       color: var(--text-primary);
-      transition: transform .16s ease, box-shadow .16s ease;
       overflow: hidden;
-      min-height: 88px;
-      touch-action: manipulation;
-      border: 1px solid var(--border);
+      
+      /* Animasyon Hazırlığı */
+      opacity: 0;
+      transform: translate3d(0, 25px, 0);
+      
+      /* PRESS EFEKTİ İÇİN YUMUŞATMA */
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
     }
+
     .menu-card::after {
       content: "";
-      position: absolute; inset: 0;
-      /* warm highlight that catches the eye like baklava's glaze */
-      background: radial-gradient(circle at top right, rgba(211, 154, 48, 0.30), transparent 65%);
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(211,154,48,0.15), transparent 60%);
       pointer-events: none;
     }
-    .menu-card .title { position: relative; z-index:1; font-size: 19px; font-weight: 700; letter-spacing: .03em; }
-    .menu-card .indicator[aria-hidden="true"] {
-      position: relative; z-index: 1;
-      width: 36px; height: 36px; border-radius: 12px;
-      /* subtle border picking up the accent colour */
-      border: 1px solid rgba(211, 154, 48, .45);
-      background: linear-gradient(135deg, rgba(255, 235, 195, .45), rgba(248, 228, 185, .35));
-      box-shadow: inset 0 1px 3px rgba(0,0,0,.20);
-      font-size: 22px; font-weight: 600; color: rgba(58, 40, 19, .9);
-      display: grid; place-items: center;
-    }
-    .menu-card .indicator[aria-hidden="true"]::before { content: '›'; transform: translateX(1px); }
 
-    @media (hover:hover) and (pointer:fine) {
-      .menu-card:hover, .menu-card:focus-visible {
-        transform: translateY(-3px);
-        box-shadow: 0 22px 44px rgba(0,0,0,.30);
-        outline: none;
-      }
-    }
-    .menu-card:active, .menu-card.is-pressed {
-      transform: translateY(0) scale(.96);
-      box-shadow: var(--shadow-press);
+    .menu-card .title {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      z-index: 1;
     }
 
-    /* Section (list) */
-    .menu-section {
-      flex: 1; display: flex; flex-direction: column; gap: 18px;
-      padding: 16px; border-radius: 24px;
-      background: var(--card-bg);
-      /* a softer blur and lighter shadow suit the airy theme */
-      /* Reduce the blur on menu sections to ease processing load. */
-      backdrop-filter: blur(4px);
-      box-shadow: 0 22px 32px rgba(0,0,0,.15);
-      border: 1px solid var(--border);
-    }
-    .section-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .back-button {
-      appearance: none;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 10px 16px;
-      /* button inherits our light palette */
-      background: rgba(255, 240, 210, .85);
-      color: var(--text-primary);
-      font-size: 15px;
-      display: inline-flex;
-      align-items: center;
-      cursor: pointer;
-      transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
-      font-weight: 700;
-      letter-spacing: .03em;
-      box-shadow: 0 10px 22px rgba(0,0,0,.12);
-    }
-    @media (hover:hover) and (pointer:fine) {
-      .back-button:hover,
-      .back-button:focus-visible {
-        transform: translateY(-2px);
-        box-shadow: 0 14px 28px rgba(0,0,0,.14);
-        background: rgba(255, 245, 225, .9);
-        outline: none;
-      }
-    }
-    .back-button:active,
-    .back-button.is-pressed {
-      transform: translateY(0) scale(.96);
-      box-shadow: inset 0 2px 5px rgba(0,0,0,.18);
-      background: rgba(255, 238, 208, .9);
-    }
-    .section-header h2 {
-      margin: 0; font-family: "Playfair Display", "Times New Roman", serif;
-      font-size: 24px; color: var(--text-primary); letter-spacing: .02em;
-      text-shadow: 0 1px 10px rgba(0,0,0,.18);
-    }
-
-    .items { display: flex; flex-direction: column; gap: 14px; padding-bottom: 8px; }
-
-    .item-card {
-      /* lighter card reminiscent of flaky pastry and syrup */
-      background: linear-gradient(135deg, rgba(255, 245, 225, .96), rgba(255, 238, 210, .92));
-      border-radius: 18px;
-      padding: 14px;
+    .menu-card .indicator {
+      position: relative;
+      z-index: 1;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      border: 1px solid rgba(211,154,48,0.35);
+      background: linear-gradient(135deg, #fff8eb, #f7e6c6);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+      font-size: 20px;
+      color: rgba(58,40,19,0.9);
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 120px;
-      gap: 12px;
-      box-shadow: 0 16px 26px rgba(0,0,0,.15);
-      border: 1px solid var(--border);
+      place-items: center;
     }
-    .item-info h3 {
-      margin: 0 0 6px; font-size: 18px; font-weight: 700; letter-spacing: .01em;
-      display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    .menu-card .indicator::before {
+      content: "›";
+      transform: translateX(1px);
+      font-weight: bold;
     }
-    .price { color: var(--accent); font-weight: 800; font-size: 16px; }
-    .item-info p { margin: 0; font-size: 14px; color: var(--text-secondary); line-height: 1.45; }
 
-    /* Photo: show image if available; else patterned box */
-    .item-photo {
-      border-radius: 14px;
-      /* light striped pattern echoes the subtle layers of filo pastry */
-      background: repeating-linear-gradient(135deg, rgba(211, 154, 48, .20) 0 18px, rgba(255, 240, 210, 0.10) 18px 36px);
+    /* YUMUŞAK BASMA (PRESS) EFEKTİ */
+    .menu-card:active {
+      transform: scale(0.96) !important;
+      box-shadow: var(--shadow-press) !important;
+    }
+
+    /* === ANİMASYONLAR === */
+    .screen.active:not(.fast-return) .menu-card {
+      animation: card-enter 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+    .screen.active:not(.fast-return) .menu-card:nth-child(1) { animation-delay: 0.10s; }
+    .screen.active:not(.fast-return) .menu-card:nth-child(2) { animation-delay: 0.18s; }
+    .screen.active:not(.fast-return) .menu-card:nth-child(3) { animation-delay: 0.26s; }
+    .screen.active:not(.fast-return) .menu-card:nth-child(4) { animation-delay: 0.34s; }
+    .screen.active:not(.fast-return) .menu-card:nth-child(5) { animation-delay: 0.42s; }
+
+    .screen.fast-return .menu-card {
+      animation: card-enter 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+    .screen.fast-return .menu-card:nth-child(1) { animation-delay: 0.03s; }
+    .screen.fast-return .menu-card:nth-child(2) { animation-delay: 0.06s; }
+    .screen.fast-return .menu-card:nth-child(3) { animation-delay: 0.09s; }
+    .screen.fast-return .menu-card:nth-child(4) { animation-delay: 0.12s; }
+    .screen.fast-return .menu-card:nth-child(5) { animation-delay: 0.15s; }
+
+    @keyframes card-enter {
+      to { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    /* === İÇ SAYFALAR === */
+    .menu-section-container {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      border: 1px solid var(--border);
+      
+      animation: section-pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transform-origin: center 100px;
+      opacity: 0;
+    }
+
+    @keyframes section-pop {
+      0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .section-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 12px;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+
+    /* GERİ BUTONU DÜZENLEMESİ */
+    .back-button {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--border);
+      padding: 10px 18px;
+      border-radius: 30px; /* Daha yuvarlak */
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      /* Geçiş Efekti */
+      transition: transform 0.15s ease, background-color 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* GERİ BUTONU GÖÇME EFEKTİ */
+    .back-button:active {
+      transform: scale(0.92);
+      background-color: #f0eadd;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .item-card {
+      display: flex;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #ffffff, #fbf6ea);
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      opacity: 0; 
+      transform: translate3d(0, 20px, 0);
+      animation: item-slide-up 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+    
+    .item-card:nth-child(1) { animation-delay: 0.1s; }
+    .item-card:nth-child(2) { animation-delay: 0.2s; }
+    .item-card:nth-child(3) { animation-delay: 0.3s; }
+    .item-card:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes item-slide-up {
+      to { opacity: 1; transform: translate3d(0,0,0); }
+    }
+
+    .item-details h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+      font-weight: 600;
+    }
+    .item-details .price {
       color: var(--accent);
-      text-align: center;
-      padding: 10px;
-      overflow: hidden;
+      font-weight: 700;
+      font-size: 16px;
+      margin-left: 6px;
     }
-    .item-photo img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .note {
+    .item-details p {
+      margin: 0;
       font-size: 13px;
-      text-align: center;
-      /* adjust note colour to complement the lighter palette */
-      color: rgba(58, 40, 19, 0.70);
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .item-img-box {
+      width: 85px;
+      height: 85px;
+      border-radius: 12px;
+      background: #f0f0f0;
+      margin-left: 12px;
+      flex-shrink: 0;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .item-img-box img {
+      width: 100%; height: 100%; object-fit: cover;
     }
 
-    /* Accessibility: focus rings for keyboard users */
-    .pressable:focus-visible, .back-button:focus-visible, .menu-card:focus-visible {
-      outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent-2);
-    }
-
-    @media (min-width: 768px) {
-      .screen {
-        padding: 48px 80px;
-        /* Allow the background to scroll on desktop instead of being fixed */
-      }
-      .menu-grid { max-width: 560px; margin: 0 auto; }
-      .menu-card { padding: 20px 26px; }
-      .menu-section { max-width: 840px; margin: 0 auto; }
-      .item-card { grid-template-columns: minmax(0, 1fr) 160px; }
-    }
-    .brand-logo{
-      position:relative;
-      z-index:1;
-      display:block;
-      margin:0 auto 12px;
-      width:min(72vw,360px);
-      height:auto;
-      image-rendering:crisp-edges;
-      background:transparent!important;
-      /* Simplify drop-shadows for better performance on mobile */
-      /* Intensify the glow effect to make the logo shine more prominently */
-      filter:
-        drop-shadow(0 -4px 12px rgba(255,255,255,0.95))
-        drop-shadow(0 0 24px rgba(255,255,255,0.75))
-        drop-shadow(0 0 40px rgba(255,255,255,0.55));
-      -webkit-filter:
-        drop-shadow(0 -4px 12px rgba(255,255,255,0.95))
-        drop-shadow(0 0 24px rgba(255,255,255,0.75))
-        drop-shadow(0 0 40px rgba(255,255,255,0.55));
-      /* Anchor scaling at the bottom of the logo for intro animation */
-      transform-origin: center bottom;
-    }
-
-    @media (max-width:480px){
-      .brand-logo{
-        /* Intensified glow on small screens as well, balanced for performance */
-        filter:
-          drop-shadow(0 -4px 10px rgba(255,255,255,0.9))
-          drop-shadow(0 0 20px rgba(255,255,255,0.7))
-          drop-shadow(0 0 32px rgba(255,255,255,0.5));
-        -webkit-filter:
-          drop-shadow(0 -4px 10px rgba(255,255,255,0.9))
-          drop-shadow(0 0 20px rgba(255,255,255,0.7))
-          drop-shadow(0 0 32px rgba(255,255,255,0.5));
-        transform-origin: center bottom;
-      }
-    }
-
-
-    /*
-      === Intro Animations ===
-      `logo-intro` animates the logo on the initial page load.  It starts
-      at half size with zero opacity, grows larger, and rises up into
-      place while fading in.  The bounce is subtle to keep a modern,
-      professional feel and avoids any flicker at the end.
-
-      `menu-rise` animates the home menu cards on initial load.  They
-      appear from slightly below and fade in as a group after the logo
-      settles.  These animations only run once because the home screen
-      receives the `.intro-done` class after playing.
-
-      === Page Transition Animations ===
-      When navigating from the home to a section, the home cards slide
-      left and fade out (`home-card-exit`).  Returning to the home
-      brings them back in from the left with a gentle overshoot
-      (`home-card-return`).  Section items fade in from below when the
-      section appears (`section-item-enter`) and slide right when it
-      exits (`section-item-exit`).
-    */
-    @keyframes logo-intro {
-      /* Start the logo already visible at a comfortable size and below its
-         final position.  Fade it in while smoothly moving upward to its
-         resting point.  Avoid any bounce, overshoot or shrink so the
-         movement feels refined and professional. */
-      /* The logo grows in place while anchored at its bottom, then
-         glides upward into its final position once it reaches full size. */
-      0%   { transform: translateY(40vh) scale(0.6); opacity: 0; }
-      60%  { transform: translateY(40vh) scale(1.3); opacity: 1; }
-      80%  { transform: translateY(10vh) scale(1.3); opacity: 1; }
-      100% { transform: translateY(0)     scale(1);   opacity: 1; }
-    }
-    @keyframes menu-rise {
-      0%   { transform: translateY(40px); opacity: 0; }
-      100% { transform: translateY(0);    opacity: 1; }
-    }
-    @keyframes home-card-exit {
-      0%   { transform: scale(1)    translateX(0);     opacity: 1; }
-      20%  { transform: scale(0.95) translateX(-10px); opacity: 0.9; }
-      100% { transform: scale(0.95) translateX(-120%); opacity: 0; }
-    }
-    @keyframes home-card-return {
-      0%   { transform: scale(0.95) translateX(-120%); opacity: 0; }
-      80%  { transform: scale(1.05) translateX(10px);  opacity: 1; }
-      100% { transform: scale(1)    translateX(0);    opacity: 1; }
-    }
-    @keyframes section-item-enter {
-      0%   { transform: translateY(40px); opacity: 0; }
-      80%  { transform: translateY(-4px); opacity: 1; }
-      100% { transform: translateY(0);    opacity: 1; }
-    }
-    @keyframes section-item-exit {
-      0%   { transform: translateX(0);     opacity: 1; }
-      100% { transform: translateX(120%); opacity: 0; }
-    }
-
-    /* New horizontal transition animations used for menu sections.  The
-       container (header + items) slides in from the right when entering and
-       exits to the right when leaving.  Individual items follow with a
-       slight delay to create a rhythmic "tick" effect. */
-    @keyframes section-container-enter {
-      /* Emerge gently from within the page instead of sliding from the right */
-      0%   { transform: scale(0.85); opacity: 0; }
-      100% { transform: scale(1);    opacity: 1; }
-    }
-    @keyframes section-container-exit {
-      /* Shrink and fade the container back into the page when exiting */
-      0%   { transform: scale(1);    opacity: 1; }
-      100% { transform: scale(0.85); opacity: 0; }
-    }
-    @keyframes section-item-slide-in {
-      0%   { transform: translateX(60px); opacity: 0; }
-      100% { transform: translateX(0);    opacity: 1; }
-    }
-    @keyframes section-item-slide-out {
-      0%   { transform: translateX(0);    opacity: 1; }
-      100% { transform: translateX(-60px); opacity: 0; }
-    }
-    /* Intro: animate logo and menu cards only before intro-done */
-    body:not(.intro-done) .brand-logo {
-      opacity: 0;
-      animation: logo-intro 1.5s ease-out forwards;
-    }
-    body:not(.intro-done) #home .menu-card {
-      opacity: 0;
-      transform: translateY(40px);
-      animation: menu-rise 0.6s ease-out forwards;
-      animation-delay: 1.2s;
-    }
-    body.intro-done #home .menu-card {
-      opacity: 1;
-      transform: none;
-    }
-    /* Transitions: slide home cards out/in */
-    #home.home-exit .menu-card {
-      animation: home-card-exit 0.4s ease-in forwards;
-    }
-    #home.home-return .menu-card {
-      animation: home-card-return 0.5s ease-out forwards;
-    }
-    /* Animate the note text along with the menu cards when exiting/returning the home screen */
-    #home.home-exit .note {
-      animation: home-card-exit 0.4s ease-in forwards;
-    }
-    #home.home-return .note {
-      animation: home-card-return 0.5s ease-out forwards;
-    }
-    /* Section items entering and exiting */
-    .screen.section-enter .item-card {
-      animation: section-item-enter 0.5s ease-out forwards;
-    }
-    .screen.section-exit .item-card {
-      animation: section-item-exit 0.4s ease-in forwards;
-    }
-
-    /* Stagger the exit of the clicked category card so it lags slightly
-       behind the other cards on the home screen.  This highlights the
-       chosen card and subtly draws the eye towards the selected category. */
-    #home.home-exit .menu-card.selected-exit {
-      animation-delay: .1s;
-    }
-
-    /* Animate the entire menu-section (header + items) horizontally when
-       entering or leaving a category. */
-    .screen.section-enter .menu-section {
-      animation: section-container-enter 0.5s ease-out forwards;
-    }
-    .screen.section-exit .menu-section {
-      animation: section-container-exit 0.4s ease-in forwards;
-    }
-
-    /* Apply the new horizontal slide-in animation to each item card.  A
-       cascading delay adds a gentle "tick" as the items settle into
-       place.  Items start appearing while the home cards are still
-       departing, creating an overlapping transition. */
-    .screen.section-enter .item-card {
-      animation: section-item-slide-in 0.5s ease-out forwards;
-    }
-    .screen.section-enter .item-card:nth-child(1) { animation-delay: .15s; }
-    .screen.section-enter .item-card:nth-child(2) { animation-delay: .20s; }
-    .screen.section-enter .item-card:nth-child(3) { animation-delay: .25s; }
-    .screen.section-enter .item-card:nth-child(4) { animation-delay: .30s; }
-    .screen.section-enter .item-card:nth-child(5) { animation-delay: .35s; }
-    .screen.section-enter .item-card:nth-child(6) { animation-delay: .40s; }
-    .screen.section-enter .item-card:nth-child(7) { animation-delay: .45s; }
-    .screen.section-enter .item-card:nth-child(8) { animation-delay: .50s; }
-
-    /* When a section is exiting, slide each item slightly to the left and fade
-       it out. */
-    .screen.section-exit .item-card {
-      animation: section-item-slide-out 0.4s ease-in forwards;
-    }
-
-    /*
-      Mobile optimisations: disable expensive effects on small screens.
-      On Android devices the combination of backdrop-filter and heavy
-      shadows can cause the page to hang on load.  The following rules
-      remove blur filters and shadows on screens narrower than 768px and
-      increase background opacity so the design remains clear without
-      relying on GPU-intensive filters.
-    */
-    @media (max-width: 768px) {
-      body::before {
-        /* Remove blur and increase opacity so the background photo is
-           visible without GPU filters. */
-        filter: none;
-        opacity: 1;
-      }
-      .menu-section {
-        backdrop-filter: none;
-        box-shadow: none;
-      }
-    }
-    /*
-      =====================================================================
-      Performance overrides appended at the end of the stylesheet
-
-      The base styles defined above use blur filters, backdrop-filter and
-      relatively deep drop shadows to achieve a soft, frosted look.  On
-      some devices (particularly mid-range Android phones) these effects
-      can cause the browser to hang or fail to render the page when
-      first loaded.  To improve reliability, we provide a set of
-      lightweight overrides here.  Because these rules appear at the
-      end of the stylesheet they take precedence over earlier
-      declarations.
-
-      We lighten the blur and brightness adjustment applied to the
-      background image, remove the backdrop-filter from menu sections
-      entirely and reduce the shadow depth.  The result still looks
-      polished but is much easier for mobile GPUs to handle.
-    */
-    body::before {
-      filter: blur(1px) brightness(0.97);
-      opacity: 0.85;
-    }
-    .menu-section {
-      backdrop-filter: none;
-      box-shadow: 0 8px 18px rgba(0,0,0,.08);
-    }
   </style>
 </head>
 <body>
+
+  <div class="bg-layer"></div>
+  <div class="bg-overlay"></div>
+
   <main>
-    <!-- Shared header stays visible across all screens.  It contains the logo and tagline and
-         does not animate when navigating between sections. -->
     <header>
-      <img src="https://i.imgur.com/PXTh0cO.png" alt="Çay Börek Logo" class="brand-logo">
-      <p class="tagline">Geleneksel lezzetlere modern dokunuş</p>
+      <img src="https://i.imgur.com/bGwDZGk.png" alt="Logo" class="brand-logo" id="mainLogo">
+      <p class="tagline">GELENEKSEL LEZZETLERE MODERN DOKUNUŞ</p>
     </header>
+
     <section class="screen active" id="home">
       <div class="menu-grid">
-        <a class="menu-card pressable" data-target="borekler" href="#borekler">
+        <div class="menu-card" onclick="goToSection('borekler')">
           <span class="title">Börekler</span>
-          <span class="indicator" aria-hidden="true"></span>
-        </a>
-        <a class="menu-card pressable" data-target="tatlilar" href="#tatlilar">
+          <span class="indicator"></span>
+        </div>
+        <div class="menu-card" onclick="goToSection('tatlilar')">
           <span class="title">Tatlılar</span>
-          <span class="indicator" aria-hidden="true"></span>
-        </a>
-        <a class="menu-card pressable" data-target="icecekler" href="#icecekler">
+          <span class="indicator"></span>
+        </div>
+        <div class="menu-card" onclick="goToSection('icecekler')">
           <span class="title">İçecekler</span>
-          <span class="indicator" aria-hidden="true"></span>
-        </a>
-        <a class="menu-card pressable" data-target="kahvalti" href="#kahvalti">
+          <span class="indicator"></span>
+        </div>
+        <div class="menu-card" onclick="goToSection('kahvalti')">
           <span class="title">Kahvaltılar</span>
-          <span class="indicator" aria-hidden="true"></span>
-        </a>
-        <a class="menu-card pressable" data-target="ozel" href="#ozel">
+          <span class="indicator"></span>
+        </div>
+        <div class="menu-card" onclick="goToSection('ozel')">
           <span class="title">Şefin Önerisi</span>
-          <span class="indicator" aria-hidden="true"></span>
-        </a>
+          <span class="indicator"></span>
+        </div>
       </div>
-      <p class="note">Afiyet olsun!</p>
     </section>
+
+    <div id="dynamic-content"></div>
   </main>
 
   <script>
-    // === Data with optional 'photo' field (use your own URLs) ===
-    const menuStructure = [
-      {
-        id: 'borekler',
-        title: 'Börekler',
-        items: [
-          { name: 'Peynirli Börek', price: '65 ₺', description: 'El açması hamur, beyaz peynir & maydanoz ile günlük hazırlanır.', photo: '' },
-          { name: 'Ispanaklı Börek', price: '70 ₺', description: 'Mevsim ıspanağı ve lor uyumu; hafif ve doyurucu.', photo: '' },
-          { name: 'Patatesli Börek', price: '68 ₺', description: 'Karamelize soğan & baharat karışımıyla zengin iç.', photo: '' }
-        ]
-      },
-      {
-        id: 'tatlilar',
-        title: 'Tatlılar',
-        items: [
-          { name: 'Fıstıklı Baklava', price: '95 ₺', description: 'İncecik katlar, Antep fıstığı ve dengeli şerbet.', photo: '' },
-          { name: 'Sütlaç', price: '60 ₺', description: 'Fırında kızarmış üst, tam kıvamında klasik tat.', photo: '' },
-          { name: 'Günlük Tatlı', price: 'Günlük', description: 'Değişen seçenekler için servis ekibine danışın.', photo: '' }
-        ]
-      },
-      {
-        id: 'icecekler',
-        title: 'İçecekler',
-        items: [
-          { name: 'Çay', price: '20 ₺', description: 'Gün boyu taze demlenen Karadeniz çayı.', photo: '' },
-          { name: 'Dibek Kahvesi', price: '55 ₺', description: 'Geleneksel yöntemlerle öğütülmüş aromatik kahve.', photo: '' },
-          { name: 'Soğuk Limonata', price: '48 ₺', description: 'Taze sıkım limon & nane ferahlığı.', photo: '' }
-        ]
-      },
-      {
-        id: 'kahvalti',
-        title: 'Kahvaltılar',
-        items: [
-          { name: 'Serpme Kahvaltı (2 Kişilik)', price: '320 ₺', description: 'Yerel ürünlerle zenginleştirilmiş paylaşımlık menü.', photo: '' },
-          { name: 'Mini Kahvaltı Tabağı', price: '175 ₺', description: 'Tek kişilik pratik seçenek, sıcak & soğuk eşlikçilerle.', photo: '' },
-          { name: 'Gözleme Menü', price: '155 ₺', description: 'Seçeceğiniz gözleme + çay ikramı.', photo: '' }
-        ]
-      },
-      {
-        id: 'ozel',
-        title: 'Şefin Önerisi',
-        items: [
-          { name: 'Haftanın Böreği', price: 'Günlük', description: 'Sezon malzemeleriyle hazırlanan sürpriz tarif.', photo: '' },
-          { name: 'Günün Tatlısı', price: 'Günlük', description: 'Sınırlı sayıda özel tatlı seçeneği.', photo: '' },
-          { name: 'Demleme Özel Çay', price: 'Günlük', description: 'Mevsim bitkileriyle harmanlanmış demleme çay deneyimi.', photo: '' }
-        ]
-      }
-    ];
+    // === DATA ===
+    const menuData = {
+      borekler: { title: "Börekler", items: [
+        { n: "Peynirli Börek", p: "65 ₺", d: "El açması hamur, beyaz peynir.", i: "" },
+        { n: "Ispanaklı Börek", p: "70 ₺", d: "Mevsim ıspanağı ve lor.", i: "" },
+        { n: "Patatesli Börek", p: "68 ₺", d: "Karamelize soğanlı iç.", i: "" }
+      ]},
+      tatlilar: { title: "Tatlılar", items: [
+        { n: "Fıstıklı Baklava", p: "95 ₺", d: "Bol fıstıklı klasik.", i: "" },
+        { n: "Sütlaç", p: "60 ₺", d: "Fırınlanmış köy sütü.", i: "" }
+      ]},
+      icecekler: { title: "İçecekler", items: [
+        { n: "Çay", p: "20 ₺", d: "Taze demleme.", i: "" },
+        { n: "Türk Kahvesi", p: "55 ₺", d: "Lokum ile.", i: "" },
+        { n: "Limonata", p: "48 ₺", d: "Ev yapımı.", i: "" }
+      ]},
+      kahvalti: { title: "Kahvaltılar", items: [
+        { n: "Serpme Kahvaltı", p: "320 ₺", d: "2 kişilik dolu dolu.", i: "" },
+        { n: "Tabak Kahvaltı", p: "175 ₺", d: "Hızlı ve doyurucu.", i: "" }
+      ]},
+      ozel: { title: "Şefin Önerisi", items: [
+        { n: "Günün Sürprizi", p: "Sorunuz", d: "Şefin özel tarifi.", i: "" }
+      ]}
+    };
 
-    const main = document.querySelector('main');
-    const homeScreen = document.getElementById('home');
+    // === INIT ===
+    window.addEventListener('DOMContentLoaded', () => {
+      const logo = document.getElementById('mainLogo');
+      const tagline = document.querySelector('.tagline');
 
-    // Build sections
-    menuStructure.forEach(sectionData => {
-      main.appendChild(buildMenuSection(sectionData));
-    });
-    const screens = document.querySelectorAll('.screen');
-
-    // Mark the home intro as complete once the logo animation finishes.  The
-    // `.intro-done` class prevents the initial animations from replaying on
-    // subsequent visits to the home screen.
-    window.addEventListener('load', () => {
-      // Find the logo in the header.  When its intro animation finishes,
-      // mark the body as intro-done.  This prevents the intro from
-      // replaying on subsequent navigations.
-      const logo = document.querySelector('.brand-logo');
-      if (!logo) return;
-      logo.addEventListener('animationend', (e) => {
-        if (e.animationName === 'logo-intro') {
-          document.body.classList.add('intro-done');
-          // After the logo finishes its intro, type out the tagline text
-          typeTagline();
-        }
-      }, { once: true });
-      /*
-        Fallback: Some mobile browsers may not fire the `animationend`
-        event for the intro animation or may disable CSS animations
-        entirely to save power.  In these cases the menu cards could
-        remain hidden because the `intro-done` class is never added.
-        To guard against this scenario, add the `intro-done` class
-        automatically after 3 seconds if it hasn't been set.  This
-        ensures the menu becomes visible even if the animation fails.
-      */
-      setTimeout(() => {
-        if (!document.body.classList.contains('intro-done')) {
-          document.body.classList.add('intro-done');
-          // If the intro didn't fire (e.g. on low-power browsers), still type the tagline
-          typeTagline();
-        }
-      }, 3000);
-    });
-
-    // Navigation: handle menu card clicks and back buttons with custom transitions
-    document.querySelectorAll('.menu-card[data-target]').forEach(card => {
-      card.addEventListener('click', e => {
-        e.preventDefault();
-        const targetId = card.dataset.target;
-        // Pass the clicked card so the transition can apply a delayed
-        // animation to the selected menu card.  Without this parameter
-        // every card exits with the same timing.
-        transitionTo(targetId, card);
+      requestAnimationFrame(() => {
+        logo.classList.add('animate-in');
       });
+
+      setTimeout(() => {
+        logo.classList.add('loaded');
+        typeTagline(tagline);
+      }, 1200);
+
+      history.replaceState({ view: 'home' }, '', '');
     });
-    document.addEventListener('click', e => {
-      const el = e.target;
-      // Safely check if the event target is an Element for broader mobile compatibility
-      if (!el || el.nodeType !== 1) return;
-      const backButton = el.closest('.back-button');
-      if (backButton) {
-        e.preventDefault();
-        transitionTo(backButton.dataset.back);
+
+    // === NAVIGATION LOGIC ===
+    window.addEventListener('popstate', (event) => {
+      const state = event.state;
+      if (!state || state.view === 'home') {
+        showHome(true);
+      } else {
+        goToSection(state.view, false);
       }
     });
 
-    // Press feedback (reused)
-    requestAnimationFrame(() => document.querySelectorAll('.pressable').forEach(enhancePressFeedback));
+    function goToSection(id, pushToHistory = true) {
+      const data = menuData[id];
+      if (!data) return;
 
-    // Typewriter effect for the tagline: reveal the text one character at a time.
-    function typeTagline() {
-      const taglineEl = document.querySelector('.tagline');
-      if (!taglineEl) return;
-      const original = taglineEl.textContent.trim();
-      // If already typed once, do nothing.
-      if (taglineEl.dataset.typed === 'true') return;
-      taglineEl.dataset.typed = 'true';
-      taglineEl.textContent = '';
-      let i = 0;
-      const interval = setInterval(() => {
-        taglineEl.textContent += original[i];
-        i++;
-        if (i >= original.length) {
-          clearInterval(interval);
-        }
-      }, 55);
+      if (pushToHistory) {
+        history.pushState({ view: id }, '', `#${id}`);
+      }
+
+      const home = document.getElementById('home');
+      home.classList.remove('active', 'fast-return');
+      
+      const container = document.getElementById('dynamic-content');
+      container.innerHTML = buildSectionHTML(id, data);
+      
+      const newSection = document.getElementById('section-' + id);
+      newSection.style.display = 'flex';
+      
+      document.querySelector('main').scrollTop = 0;
     }
 
-    function buildMenuSection({ id, title, items }) {
-      const section = document.createElement('section');
-      section.className = 'screen'; section.id = id;
-      section.innerHTML = `
-        <div class="menu-section">
-          <div class="section-header">
-            <button class="back-button pressable" data-back="home" aria-label="Geri dön">Geri dön</button>
-            <h2>${title}</h2>
+    function goBack() {
+      history.back();
+    }
+
+    function showHome(isFast) {
+      const container = document.getElementById('dynamic-content');
+      container.innerHTML = '';
+
+      const home = document.getElementById('home');
+      
+      if (isFast) {
+        home.classList.add('fast-return');
+      } else {
+        home.classList.remove('fast-return');
+      }
+      
+      home.classList.add('active');
+    }
+
+    function buildSectionHTML(id, data) {
+      const itemsHTML = data.items.map(item => `
+        <div class="item-card">
+          <div class="item-details">
+            <h3>${item.n}<span class="price">${item.p}</span></h3>
+            <p>${item.d}</p>
           </div>
-          <div class="items">
-            ${items.map(createItemMarkup).join('')}
+          <div class="item-img-box">
+            ${item.i ? `<img src="${item.i}" loading="lazy">` : ''}
           </div>
         </div>
-      `;
-      return section;
-    }
+      `).join('');
 
-    function createItemMarkup(item) {
-      const hasPhoto = item.photo && item.photo.trim().length > 0;
       return `
-        <article class="item-card">
-          <div class="item-info">
-            <h3>${item.name} <span class="price">${item.price}</span></h3>
-            <p>${item.description}</p>
+        <section class="screen active" id="section-${id}">
+          <div class="menu-section-container">
+            <div class="section-header">
+              <button class="back-button" onclick="goBack()">‹ Geri</button>
+              <h2 class="section-title">${data.title}</h2>
+            </div>
+            <div class="items-list">
+              ${itemsHTML}
+            </div>
           </div>
-          <div class="item-photo">
-            ${hasPhoto
-              ? `<img src="${item.photo}" alt="${item.name}" loading="lazy" decoding="async">`
-              : `<span>Fotoğraf alanı</span>`}
-          </div>
-        </article>
+        </section>
       `;
     }
 
-    function enhancePressFeedback(el) {
-      const releaseDelay = 100; let t;
-      const activate = () => { clearTimeout(t); el.classList.add('is-pressed'); };
-      const release  = () => { clearTimeout(t); t = setTimeout(() => el.classList.remove('is-pressed'), releaseDelay); };
-      const pd = e => { if (e.pointerType === 'mouse' && e.button !== 0) return; activate(); };
-      if ('PointerEvent' in window) {
-        el.addEventListener('pointerdown', pd);
-        el.addEventListener('pointerup', release);
-        el.addEventListener('pointerleave', release);
-        el.addEventListener('pointercancel', release);
-      } else {
-        el.addEventListener('touchstart', activate, { passive: true });
-        el.addEventListener('touchend', release);
-        el.addEventListener('touchcancel', release);
-        el.addEventListener('mousedown', e => { if (e.button !== 0) return; activate(); });
-        el.addEventListener('mouseup', release);
-        el.addEventListener('mouseleave', release);
-      }
-      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') activate(); });
-      el.addEventListener('keyup', release);
-      el.addEventListener('blur', release);
-    }
-
-    /*
-      Transition logic for navigating between home and menu sections.  We use
-      CSS animations triggered by classes to choreograph the exit and
-      entrance of screens.  Exiting the home screen slides the category
-      cards to the left and fades them out.  Entering a section fades
-      its items in from below.  Returning to the home screen slides the
-      section’s items to the right and brings the category cards in
-      from the left.
-    */
-    const EXIT_DURATION = 400;
-    const ENTER_DURATION = 500;
-
-    function transitionTo(targetId, clickedCard = null) {
-      const currentActive = document.querySelector('.screen.active');
-      const target = document.getElementById(targetId) || homeScreen;
-      // If already on target, nothing to do
-      if (currentActive === target) return;
-      // Navigate from home to a section
-      if (currentActive === homeScreen && target !== homeScreen) {
-        // Start exit animation on home menu cards
-        homeScreen.classList.add('home-exit');
-        // Apply a special class to the clicked card so it lags behind the
-        // others during the exit animation.
-        if (clickedCard) {
-          clickedCard.classList.add('selected-exit');
+    function typeTagline(el) {
+      const text = el.textContent;
+      el.textContent = '';
+      el.style.opacity = 1;
+      
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, 40);
         }
-        // Begin to reveal the target section partway through the exit animation
-        // Kick off the entrance of the target section partway through the exit
-        // of the home cards to create an overlapping transition.  This makes
-        // it feel less like a hard page change and more like a smooth swap.
-        const overlapStart = Math.floor(EXIT_DURATION * 0.4);
-        setTimeout(() => {
-          target.classList.add('active', 'section-enter');
-          // Remove the helper class after the entrance animation finishes
-          setTimeout(() => target.classList.remove('section-enter'), ENTER_DURATION);
-        }, overlapStart);
-        // After the exit animation completes, hide the home screen and clean up
-        setTimeout(() => {
-          homeScreen.classList.remove('home-exit');
-          if (clickedCard) {
-            clickedCard.classList.remove('selected-exit');
-          }
-          currentActive.classList.remove('active');
-        }, EXIT_DURATION);
       }
-      // Navigate from a section back to home
-      else if (currentActive !== homeScreen && target === homeScreen) {
-        // Start the section exit animation on the current section
-        currentActive.classList.add('section-exit');
-        // Begin returning the home cards slightly after the section starts to exit
-        const overlapBack = Math.floor(EXIT_DURATION * 0.3);
-        setTimeout(() => {
-          homeScreen.classList.add('active', 'home-return');
-        }, overlapBack);
-        // After the exit animation completes, remove the old section and cleanup
-        setTimeout(() => {
-          currentActive.classList.remove('section-exit');
-          currentActive.classList.remove('active');
-        }, EXIT_DURATION);
-        // After the return animation finishes, remove the helper class
-        setTimeout(() => {
-          homeScreen.classList.remove('home-return');
-        }, ENTER_DURATION);
-      }
-      // Navigate between two non-home sections (fallback)
-      else {
-        currentActive.classList.remove('active');
-        target.classList.add('active');
-      }
+      type();
     }
   </script>
 </body>
