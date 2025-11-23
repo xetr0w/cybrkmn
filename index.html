@@ -2,8 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Çay Börek | QR Menü</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
@@ -15,49 +14,44 @@
       --text-secondary: rgba(58, 40, 19, 0.75);
       --border: rgba(58, 40, 19, 0.10);
       --shadow-card: 0 10px 24px rgba(0,0,0,0.18);
-      --shadow-press: 0 2px 8px rgba(0, 0, 0, 0.10);
+      --shadow-press: 0 5px 18px rgba(0, 0, 0, 0.45);
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;height:100%;}
 
-    /* === EN DIŞ KATMANLAR === */
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
+    body{
+      font-family:'Montserrat',sans-serif;
+      color:var(--text-primary);
+      background-color:#f4dec0;
       overflow: hidden;
     }
 
-    body {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--text-primary);
-      background-image: url("https://i.imgur.com/3oYLLMe.png");
+    /* === ARKAPLAN (BAKLAVA FOTOĞRAFI) === */
+    .bg-layer {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url("https://i.imgur.com/74SKUHT.jpeg");
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: scroll;
+      z-index: -2;
+      transform: translate3d(0,0,0);
+    }
+    
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,245,230,0.45), rgba(255,245,230,0.60));
+      z-index: -1;
     }
 
-    /* === İÇERİĞİN KAYDIĞI KATMAN === */
     main {
-      position: relative;
-      height: 100%;
-      width: 100%;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
       padding-bottom: 40px;
-      background: linear-gradient(
-        180deg,
-        rgba(255,245,230,0.60) 0%,
-        rgba(255,245,230,0.80) 45%,
-        rgba(255,245,230,0.92) 100%
-      );
-      background-clip: padding-box;
     }
 
     /* === HEADER & LOGO === */
@@ -83,11 +77,12 @@
       animation: logo-slide-up 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
 
+    .brand-logo.loaded {
+      /* istersen glow vs ekleriz */
+    }
+
     @keyframes logo-slide-up {
-      to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
-      }
+      to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
     }
 
     .tagline {
@@ -99,25 +94,16 @@
       opacity: 0;
       transform: translate3d(0, 18px, 0);
       will-change: opacity, transform;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
     }
 
+    /* Yazı + şeffaflık + yukarı kayma */
     @keyframes tagline-slide-up {
-      0% {
-        opacity: 0;
-        transform: translate3d(0, 18px, 0);
-      }
-      60% {
-        opacity: 0.45;
-        transform: translate3d(0, 4px, 0);
-      }
-      100% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-      }
+      0%   { opacity: 0;   transform: translate3d(0, 18px, 0); }
+      60%  { opacity: 0.45; transform: translate3d(0, 4px, 0); }
+      100% { opacity: 1;   transform: translate3d(0, 0, 0); }
     }
 
-    /* === EKRANLAR === */
+    /* === SCREENS === */
     .screen {
       display: none;
       flex-direction: column;
@@ -127,7 +113,7 @@
       max-width: 600px;
       margin: 0 auto;
     }
-
+    
     .screen.active {
       display: flex;
     }
@@ -139,125 +125,116 @@
       gap: 16px;
     }
 
+    /* dış kart: giriş animasyonu */
     .menu-card {
       position: relative;
       width: 100%;
-      min-height: 96px;
-      border-radius: 18px;
-
-      /* geliş animasyonu için */
-      top: 20px;
       opacity: 0;
+      transform: translate3d(0, 25px, 0);
+      animation: card-enter 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+    .screen.active:not(.fast-return) .menu-card:nth-child(1) { animation-delay: 0.10s; }
+    .screen.active:not(.fast-return) .menu-card:nth-child(2) { animation-delay: 0.18s; }
+    .screen.active:not(.fast-return) .menu-card:nth-child(3) { animation-delay: 0.26s; }
+    .screen.active:not(.fast-return) .menu-card:nth-child(4) { animation-delay: 0.34s; }
+    .screen.active:not(.fast-return) .menu-card:nth-child(5) { animation-delay: 0.42s; }
 
-      /* görsel */
+    .screen.fast-return .menu-card {
+      animation-duration: 0.35s;
+    }
+    .screen.fast-return .menu-card:nth-child(1) { animation-delay: 0.03s; }
+    .screen.fast-return .menu-card:nth-child(2) { animation-delay: 0.06s; }
+    .screen.fast-return .menu-card:nth-child(3) { animation-delay: 0.09s; }
+    .screen.fast-return .menu-card:nth-child(4) { animation-delay: 0.12s; }
+    .screen.fast-return .menu-card:nth-child(5) { animation-delay: 0.15s; }
+
+    @keyframes card-enter {
+      to { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    /* iç kart: basma efekti buraya */
+    .menu-card-inner {
+      position: relative;
+      border-radius: 18px;
       padding: 0 24px;
+      min-height: 96px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
       box-shadow: var(--shadow-card);
-      border: 1px solid rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(0,0,0,0.06);
+
       text-decoration: none;
       color: var(--text-primary);
       overflow: hidden;
-      cursor: pointer;
 
-      /* hem geliş hem basma için geçişler */
-      transition:
-        top 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
-        opacity 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
-        transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-        background-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-        box-shadow 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
     }
 
-    .menu-card::after {
+    .menu-card-inner::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top right,
-                rgba(211, 154, 48, 0.18), transparent 60%);
+      background: radial-gradient(circle at top right, rgba(211,154,48,0.18), transparent 60%);
       pointer-events: none;
+      transition: opacity 0.16s ease;
+      opacity: 1;
     }
 
-    .menu-card .title {
+    .menu-card-inner .title {
       font-size: 19px;
       font-weight: 600;
       letter-spacing: 0.02em;
       z-index: 1;
     }
 
-    .menu-card .indicator {
+    .menu-card-inner .indicator {
       position: relative;
       z-index: 1;
       width: 38px;
       height: 38px;
       border-radius: 12px;
-      border: 1px solid rgba(211, 154, 48, 0.35);
+      border: 1px solid rgba(211,154,48,0.35);
       background: linear-gradient(135deg, #fff8eb, #f7e6c6);
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
       font-size: 20px;
-      color: rgba(58, 40, 19, 0.9);
+      color: rgba(58,40,19,0.9);
       display: grid;
       place-items: center;
     }
-
-    .menu-card .indicator::before {
+    .menu-card-inner .indicator::before {
       content: "›";
       transform: translateX(1px);
       font-weight: bold;
     }
 
-    /* KART GİRİŞ ANİMASYONU – transform KULLANMADAN (top+opacity) */
-    .screen.active:not(.fast-return) .menu-card {
-      top: 0;
-      opacity: 1;
+    /* GERİ BUTONU + MENÜ KARTI BASMA EFEKTİ */
+    .back-button,
+    .menu-card-inner {
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease, background-color 0.16s ease;
     }
 
-    .screen.active:not(.fast-return) .menu-card:nth-child(1) {
-      transition-delay: 0.10s;
-    }
-    .screen.active:not(.fast-return) .menu-card:nth-child(2) {
-      transition-delay: 0.18s;
-    }
-    .screen.active:not(.fast-return) .menu-card:nth-child(3) {
-      transition-delay: 0.26s;
-    }
-    .screen.active:not(.fast-return) .menu-card:nth-child(4) {
-      transition-delay: 0.34s;
-    }
-    .screen.active:not(.fast-return) .menu-card:nth-child(5) {
-      transition-delay: 0.42s;
-    }
-
-    .screen.fast-return .menu-card {
-      top: 0;
-      opacity: 1;
-      transition-duration: 180ms;
-    }
-    .screen.fast-return .menu-card:nth-child(1) {
-      transition-delay: 0.03s;
-    }
-    .screen.fast-return .menu-card:nth-child(2) {
-      transition-delay: 0.06s;
-    }
-    .screen.fast-return .menu-card:nth-child(3) {
-      transition-delay: 0.09s;
-    }
-    .screen.fast-return .menu-card:nth-child(4) {
-      transition-delay: 0.12s;
-    }
-    .screen.fast-return .menu-card:nth-child(5) {
-      transition-delay: 0.15s;
-    }
-
-    /* BASMA HİSSİ – .pressed ile kontrol ediliyor */
-    .menu-card.pressed {
-      transform: scale(0.9); /* içe göçme */
+    .back-button.pressed,
+    .back-button:active {
+      transform: scale(0.92);
       background-color: #f0eadd;
-      box-shadow:
-        inset 0 6px 14px rgba(0,0,0,0.04),
-        0 6px 18px rgba(0,0,0,0.12);
+      box-shadow: var(--shadow-press);
+    }
+
+    .menu-card-inner.pressed,
+    .menu-card-inner:active {
+      transform: scale(0.92);
+      background: linear-gradient(135deg, #ecd8ac 0%, #dec69b 100%);
+      box-shadow: var(--shadow-press);
+    }
+    .menu-card-inner.pressed::after,
+    .menu-card-inner:active::after {
+      opacity: 0.4;
     }
 
     /* === İÇ SAYFALAR === */
@@ -265,23 +242,17 @@
       background: var(--card-bg);
       border-radius: 24px;
       padding: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       border: 1px solid var(--border);
-
+      
       animation: section-pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       transform-origin: center 100px;
       opacity: 0;
     }
 
     @keyframes section-pop {
-      0% {
-        opacity: 0;
-        transform: scale(0.92) translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
+      0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .section-header {
@@ -291,27 +262,17 @@
       gap: 12px;
     }
 
+    /* GERİ BUTONU */
     .back-button {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255,255,255,0.9);
       border: 1px solid var(--border);
       padding: 10px 18px;
       border-radius: 30px;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      transition:
-        transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-        background-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-        box-shadow 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-    .back-button.pressed {
-      transform: scale(0.9);
-      background-color: #f0eadd;
-      box-shadow:
-        inset 0 6px 14px rgba(0,0,0,0.04),
-        0 6px 18px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      -webkit-tap-highlight-color: transparent;
     }
 
     .section-title {
@@ -332,34 +293,20 @@
       background: linear-gradient(135deg, #ffffff, #fbf6ea);
       padding: 14px;
       border-radius: 16px;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-      opacity: 0;
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      opacity: 0; 
       transform: translate3d(0, 20px, 0);
       animation: item-slide-up 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
-
-    .item-card:nth-child(1) {
-      animation-delay: 0.1s;
-    }
-
-    .item-card:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .item-card:nth-child(3) {
-      animation-delay: 0.3s;
-    }
-
-    .item-card:nth-child(4) {
-      animation-delay: 0.4s;
-    }
+    
+    .item-card:nth-child(1) { animation-delay: 0.1s; }
+    .item-card:nth-child(2) { animation-delay: 0.2s; }
+    .item-card:nth-child(3) { animation-delay: 0.3s; }
+    .item-card:nth-child(4) { animation-delay: 0.4s; }
 
     @keyframes item-slide-up {
-      to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-      }
+      to { opacity: 1; transform: translate3d(0,0,0); }
     }
 
     .item-details h3 {
@@ -367,21 +314,18 @@
       font-size: 17px;
       font-weight: 600;
     }
-
     .item-details .price {
       color: var(--accent);
       font-weight: 700;
       font-size: 16px;
       margin-left: 6px;
     }
-
     .item-details p {
       margin: 0;
       font-size: 13px;
       color: var(--text-secondary);
       line-height: 1.4;
     }
-
     .item-img-box {
       width: 85px;
       height: 85px;
@@ -390,46 +334,56 @@
       margin-left: 12px;
       flex-shrink: 0;
       overflow: hidden;
-      border: 1px solid rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0,0,0,0.05);
     }
-
     .item-img-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      width: 100%; height: 100%; object-fit: cover;
     }
 
   </style>
 </head>
 <body>
+
+  <div class="bg-layer"></div>
+  <div class="bg-overlay"></div>
+
   <main>
     <header>
-      <img src="https://i.imgur.com/HB5J532.png"
-           alt="Logo" class="brand-logo" id="mainLogo">
+      <img src="https://i.imgur.com/HB5J532.png" alt="Logo" class="brand-logo" id="mainLogo">
       <p class="tagline">GELENEKSEL LEZZETLERE MODERN DOKUNUŞ</p>
     </header>
 
     <section class="screen active" id="home">
       <div class="menu-grid">
-        <div class="menu-card" onclick="goToSection('borekler')">
-          <span class="title">Börekler</span>
-          <span class="indicator"></span>
+        <div class="menu-card" data-target="borekler">
+          <div class="menu-card-inner">
+            <span class="title">Börekler</span>
+            <span class="indicator"></span>
+          </div>
         </div>
-        <div class="menu-card" onclick="goToSection('tatlilar')">
-          <span class="title">Tatlılar</span>
-          <span class="indicator"></span>
+        <div class="menu-card" data-target="tatlilar">
+          <div class="menu-card-inner">
+            <span class="title">Tatlılar</span>
+            <span class="indicator"></span>
+          </div>
         </div>
-        <div class="menu-card" onclick="goToSection('icecekler')">
-          <span class="title">İçecekler</span>
-          <span class="indicator"></span>
+        <div class="menu-card" data-target="icecekler">
+          <div class="menu-card-inner">
+            <span class="title">İçecekler</span>
+            <span class="indicator"></span>
+          </div>
         </div>
-        <div class="menu-card" onclick="goToSection('kahvalti')">
-          <span class="title">Kahvaltılar</span>
-          <span class="indicator"></span>
+        <div class="menu-card" data-target="kahvalti">
+          <div class="menu-card-inner">
+            <span class="title">Kahvaltılar</span>
+            <span class="indicator"></span>
+          </div>
         </div>
-        <div class="menu-card" onclick="goToSection('ozel')">
-          <span class="title">Şefin Önerisi</span>
-          <span class="indicator"></span>
+        <div class="menu-card" data-target="ozel">
+          <div class="menu-card-inner">
+            <span class="title">Şefin Önerisi</span>
+            <span class="indicator"></span>
+          </div>
         </div>
       </div>
     </section>
@@ -440,74 +394,84 @@
   <script>
     // === DATA ===
     const menuData = {
-      borekler: {
-        title: "Börekler", items: [
-          { n: "Peynirli Börek", p: "65 ₺", d: "El açması hamur, beyaz peynir.", i: "" },
-          { n: "Ispanaklı Börek", p: "70 ₺", d: "Mevsim ıspanağı ve lor.", i: "" },
-          { n: "Patatesli Börek", p: "68 ₺", d: "Karamelize soğanlı iç.", i: "" }
-        ]
-      },
-      tatlilar: {
-        title: "Tatlılar", items: [
-          { n: "Fıstıklı Baklava", p: "95 ₺", d: "Bol fıstıklı klasik.", i: "" },
-          { n: "Sütlaç", p: "60 ₺", d: "Fırınlanmış köy sütü.", i: "" }
-        ]
-      },
-      icecekler: {
-        title: "İçecekler", items: [
-          { n: "Çay", p: "20 ₺", d: "Taze demleme.", i: "" },
-          { n: "Türk Kahvesi", p: "55 ₺", d: "Lokum ile.", i: "" },
-          { n: "Limonata", p: "48 ₺", d: "Ev yapımı.", i: "" }
-        ]
-      },
-      kahvalti: {
-        title: "Kahvaltılar", items: [
-          { n: "Serpme Kahvaltı", p: "320 ₺", d: "2 kişilik dolu dolu.", i: "" },
-          { n: "Tabak Kahvaltı", p: "175 ₺", d: "Hızlı ve doyurucu.", i: "" }
-        ]
-      },
-      ozel: {
-        title: "Şefin Önerisi", items: [
-          { n: "Günün Sürprizi", p: "Sorunuz", d: "Şefin özel tarifi.", i: "" }
-        ]
-      }
+      borekler: { title: "Börekler", items: [
+        { n: "Peynirli Börek", p: "65 ₺", d: "El açması hamur, beyaz peynir.", i: "" },
+        { n: "Ispanaklı Börek", p: "70 ₺", d: "Mevsim ıspanağı ve lor.", i: "" },
+        { n: "Patatesli Börek", p: "68 ₺", d: "Karamelize soğanlı iç.", i: "" }
+      ]},
+      tatlilar: { title: "Tatlılar", items: [
+        { n: "Fıstıklı Baklava", p: "95 ₺", d: "Bol fıstıklı klasik.", i: "" },
+        { n: "Sütlaç", p: "60 ₺", d: "Fırınlanmış köy sütü.", i: "" }
+      ]},
+      icecekler: { title: "İçecekler", items: [
+        { n: "Çay", p: "20 ₺", d: "Taze demleme.", i: "" },
+        { n: "Türk Kahvesi", p: "55 ₺", d: "Lokum ile.", i: "" },
+        { n: "Limonata", p: "48 ₺", d: "Ev yapımı.", i: "" }
+      ]},
+      kahvalti: { title: "Kahvaltılar", items: [
+        { n: "Serpme Kahvaltı", p: "320 ₺", d: "2 kişilik dolu dolu.", i: "" },
+        { n: "Tabak Kahvaltı", p: "175 ₺", d: "Hızlı ve doyurucu.", i: "" }
+      ]},
+      ozel: { title: "Şefin Önerisi", items: [
+        { n: "Günün Sürprizi", p: "Sorunuz", d: "Şefin özel tarifi.", i: "" }
+      ]}
     };
+
+    // Ortak basma + gecikmeli geçiş helper
+    function triggerPressAndNavigate(element, navigateFn, delay = 220) {
+      if (!element) {
+        navigateFn();
+        return;
+      }
+      if (element.classList.contains('pressing')) return;
+      element.classList.add('pressing');
+      element.classList.add('pressed');
+
+      setTimeout(() => {
+        element.classList.remove('pressed');
+        element.classList.remove('pressing');
+        navigateFn();
+      }, delay);
+    }
 
     // === INIT ===
     window.addEventListener('DOMContentLoaded', () => {
       const logo = document.getElementById('mainLogo');
       const tagline = document.querySelector('.tagline');
 
+      // Logo yukarı kayma
       requestAnimationFrame(() => {
         logo.classList.add('animate-in');
       });
 
+      // Logo “loaded” sınıfı
       setTimeout(() => {
-        tagline.style.animation =
-          `tagline-slide-up ${"GELENEKSEL LEZZETLERE MODERN DOKUNUŞ".length * 40}ms cubic-bezier(0.2,0.8,0.2,1) forwards`;
+        logo.classList.add('loaded');
+      }, 1200);
+
+      // Tagline: logo ve kartlarla beraber aşağıdan yukarı + yazma efekti
+      setTimeout(() => {
         typeTagline(tagline);
-      }, 300);
+      }, 200);
 
-      history.replaceState({ view: 'home' }, '', '');
+      // Menü kart clickleri
+      const cards = document.querySelectorAll('.menu-card');
+      cards.forEach(card => {
+        const target = card.getAttribute('data-target');
+        if (!target) return;
 
-      // Basma efektleri: .pressed sınıfını yönet
-      const pressables = document.querySelectorAll('.menu-card, .back-button');
-      pressables.forEach(el => {
-        el.addEventListener('pointerdown', () => {
-          el.classList.add('pressed');
-        });
-        el.addEventListener('pointerup', () => {
-          el.classList.remove('pressed');
-        });
-        el.addEventListener('pointerleave', () => {
-          el.classList.remove('pressed');
-        });
-        el.addEventListener('pointercancel', () => {
-          el.classList.remove('pressed');
+        const inner = card.querySelector('.menu-card-inner');
+
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          triggerPressAndNavigate(inner, () => goToSection(target), 220);
         });
       });
+
+      history.replaceState({ view: 'home' }, '', '');
     });
 
+    // === NAVIGATION LOGIC ===
     window.addEventListener('popstate', (event) => {
       const state = event.state;
       if (!state || state.view === 'home') {
@@ -527,23 +491,16 @@
 
       const home = document.getElementById('home');
       home.classList.remove('active', 'fast-return');
-
+      
       const container = document.getElementById('dynamic-content');
       container.innerHTML = buildSectionHTML(id, data);
 
+      attachBackHandlers();
+
       const newSection = document.getElementById('section-' + id);
       newSection.style.display = 'flex';
-
+      
       document.querySelector('main').scrollTop = 0;
-
-      // yeni eklenen geri butonuna da pressed handler ekle
-      const backBtn = newSection.querySelector('.back-button');
-      if (backBtn) {
-        backBtn.addEventListener('pointerdown', () => backBtn.classList.add('pressed'));
-        backBtn.addEventListener('pointerup', () => backBtn.classList.remove('pressed'));
-        backBtn.addEventListener('pointerleave', () => backBtn.classList.remove('pressed'));
-        backBtn.addEventListener('pointercancel', () => backBtn.classList.remove('pressed'));
-      }
     }
 
     function goBack() {
@@ -555,15 +512,14 @@
       container.innerHTML = '';
 
       const home = document.getElementById('home');
-
+      
       if (isFast) {
         home.classList.add('fast-return');
       } else {
         home.classList.remove('fast-return');
       }
-
+      
       home.classList.add('active');
-      document.querySelector('main').scrollTop = 0;
     }
 
     function buildSectionHTML(id, data) {
@@ -574,7 +530,7 @@
             <p>${item.d}</p>
           </div>
           <div class="item-img-box">
-            ${item.i ? `<img src="${item.i}" loading="lazy">` : ``}
+            ${item.i ? `<img src="${item.i}" loading="lazy">` : ''}
           </div>
         </div>
       `).join('');
@@ -583,7 +539,7 @@
         <section class="screen active" id="section-${id}">
           <div class="menu-section-container">
             <div class="section-header">
-              <button class="back-button" onclick="goBack()">‹ Geri</button>
+              <button class="back-button">‹ Geri</button>
               <h2 class="section-title">${data.title}</h2>
             </div>
             <div class="items-list">
@@ -594,17 +550,38 @@
       `;
     }
 
+    // Dinamik eklenen geri butonlarına efekt + gecikme
+    function attachBackHandlers() {
+      const backs = document.querySelectorAll('.back-button');
+      backs.forEach(btn => {
+        if (btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          triggerPressAndNavigate(btn, () => goBack(), 200);
+        });
+      });
+    }
+
     function typeTagline(el) {
-      const text = "GELENEKSEL LEZZETLERE MODERN DOKUNUŞ";
-      el.textContent = "";
+      const text = el.textContent.trim();
+      el.textContent = '';
+      const charDelay = 40;
+      const totalDuration = text.length * charDelay;
+
+      el.style.opacity = 0;
+      el.style.animation = `tagline-slide-up ${totalDuration}ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards`;
+
       let i = 0;
-      (function type() {
+      function type() {
         if (i < text.length) {
           el.textContent += text.charAt(i);
           i++;
-          setTimeout(type, 40);
+          setTimeout(type, charDelay);
         }
-      })();
+      }
+      type();
     }
   </script>
 </body>
