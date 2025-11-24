@@ -14,12 +14,14 @@
 
     :root {
       --accent: #d39a30;
-      --card-bg: rgba(255, 250, 233, 0.92);
+      --card-bg: #ffffff; /* Kart rengini tam beyaz yaptım, gölge daha net patlasın */
       --text-primary: #3a280f;
       --text-secondary: rgba(58, 40, 19, 0.75);
       --border: rgba(58, 40, 19, 0.10);
-      --shadow-card: 0 10px 24px rgba(0,0,0,0.18);
-      --shadow-press: 0 5px 18px rgba(0, 0, 0, 0.45);
+      
+      /* GÖLGELERİ ABARTTIK (Kesin görünsün diye) */
+      --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.25); 
+      --shadow-press: 0 2px 5px rgba(0, 0, 0, 0.20);
     }
 
     *{box-sizing:border-box;}
@@ -29,8 +31,11 @@
       font-family: 'Montserrat',sans-serif;
       color: var(--text-primary);
       background-color: transparent; 
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
+    /* Arkaplan */
     .bg-overlay {
       position: fixed;
       top: -10vh; left: 0; width: 100%; height: 120vh;
@@ -55,7 +60,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
-      padding-bottom: 80px; /* Butonun üstüne binmesin diye boşluk arttırıldı */
+      padding-bottom: 80px;
     }
 
     header {
@@ -115,8 +120,9 @@
     .menu-grid {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      /* contain: content; <-- GÖLGEYİ KESEN KOD BUYDU, SİLDİK */
+      gap: 20px; /* Kartlar arası boşluk arttı */
+      padding: 20px; /* Kenarlardan boşluk verdim ki gölge kesilmesin */
+      margin: -20px; /* Düzeni bozmasın diye negatifi verdim */
     }
 
     .menu-card {
@@ -125,7 +131,9 @@
       opacity: 0;
       transform: translate3d(0, 25px, 0);
       animation: card-enter 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      /* Donanım hızlandırma: Titremeyi önler */
       will-change: transform, opacity;
+      perspective: 1000px; 
     }
 
     .screen.active:not(.fast-return) .menu-card:nth-child(1) { animation-delay: 0.10s; }
@@ -145,6 +153,7 @@
       to { opacity: 1; transform: translate3d(0, 0, 0); }
     }
 
+    /* === KART TASARIMI === */
     .menu-card-inner {
       position: relative;
       border-radius: 18px;
@@ -153,25 +162,41 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
-      box-shadow: var(--shadow-card);
-      border: 1px solid rgba(0,0,0,0.06);
+      
+      background: var(--card-bg);
+      box-shadow: var(--shadow-card); /* Gölge burada */
+      border: 1px solid rgba(58, 40, 19, 0.05);
+      
       text-decoration: none;
       color: var(--text-primary);
-      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
-      -webkit-tap-highlight-color: transparent;
+      
+      /* Sadece transform transition'ı var. Background yok. Titreme yapmaz. */
+      transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+      
       cursor: pointer;
-      will-change: transform;
-      /* Overflow hidden YOK, gölgeler özgür */
+      user-select: none;
+      
+      /* GPU Zorlama */
+      transform: translate3d(0,0,0); 
+      -webkit-transform: translate3d(0,0,0);
     }
 
     .menu-card-inner::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top right, rgba(211,154,48,0.18), transparent 60%);
+      /* Parlama efekti */
+      background: radial-gradient(circle at top right, rgba(211,154,48,0.15), transparent 70%);
       pointer-events: none;
       border-radius: 18px;
+    }
+
+    /* BASILINCA NE OLACAK? */
+    .menu-card-inner:active,
+    .menu-card-inner.pressed {
+      transform: scale(0.96) translate3d(0,0,0) !important; /* Hafif küçülme */
+      background-color: #fdf3dc !important; /* Hafif sarımsı renk */
+      box-shadow: var(--shadow-press) !important; /* Gölge küçülsün */
     }
 
     .menu-card-inner .title {
@@ -179,6 +204,7 @@
       font-weight: 600;
       letter-spacing: 0.02em;
       z-index: 1;
+      pointer-events: none;
     }
 
     .menu-card-inner .indicator {
@@ -194,22 +220,24 @@
       place-items: center;
       font-weight: bold;
       color: rgba(58,40,19,0.9);
+      pointer-events: none;
     }
     .menu-card-inner .indicator::before { content: "›"; transform: translateX(1px); }
 
-    .back-button, .menu-card-inner {
+    /* Geri Butonu */
+    .back-button {
       transition: transform 0.1s ease, background-color 0.1s ease;
     }
-    .menu-card-inner.pressed {
-      transform: scale(0.95);
-      background: #ecd8ac;
+    .back-button.pressed { 
+      transform: scale(0.90); 
+      background-color: #f0eadd; 
     }
 
     .menu-section-container {
       background: var(--card-bg);
       border-radius: 24px;
       padding: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
       border: 1px solid var(--border);
       animation: section-pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       transform-origin: center 100px;
@@ -230,7 +258,7 @@
     }
 
     .back-button {
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.95);
       border: 1px solid var(--border);
       padding: 10px 18px;
       border-radius: 30px;
@@ -239,8 +267,8 @@
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
-    .back-button.pressed { transform: scale(0.92); background-color: #f0eadd; }
 
     .section-title { font-size: 22px; font-weight: 600; margin: 0; }
 
@@ -253,11 +281,10 @@
       padding: 14px;
       border-radius: 16px;
       border: 1px solid rgba(0,0,0,0.08);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
       opacity: 0; 
       transform: translate3d(0, 20px, 0);
       animation: item-slide-up 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-      /* contain: content; <-- BUNU DA SİLDİK Kİ GÖLGELER RAHATLASIN */
     }
     
     .item-card:nth-child(1) { animation-delay: 0.05s; }
@@ -290,7 +317,7 @@
     }
     .item-img-box.no-image::after { content: "Fotoğraf"; font-size: 12px; color: rgba(0,0,0,0.45); position: absolute; }
 
-    /* === GOOGLE FORMS BUTONU STİLİ === */
+    /* BUTTON */
     .feedback-btn {
       position: fixed;
       bottom: 24px;
@@ -298,26 +325,20 @@
       background-color: #ffffff;
       color: var(--text-primary);
       border: 1px solid var(--accent);
-      padding: 10px 16px;
+      padding: 12px 20px;
       border-radius: 50px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      font-size: 13px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      font-size: 14px;
       font-weight: 600;
       text-decoration: none;
-      z-index: 100; /* Her şeyin üstünde */
+      z-index: 100;
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s;
     }
-    .feedback-btn:active {
-      transform: scale(0.95);
-      background-color: #fcf8f0;
-    }
-    .feedback-icon {
-      font-size: 16px;
-    }
+    .feedback-btn:active { transform: scale(0.95); background: #fcf8f0; }
+    .feedback-icon { font-size: 16px; }
   </style>
 </head>
 <body>
@@ -360,7 +381,6 @@
   </a>
 
   <script>
-    // === DATA ===
     const menuData = {
       borekler: { title: "Börekler", items: [
         { n: "Peynirli Su Böreği", p: "", d: "El açması ince katmanlı su böreği.", i: "images/cayborek_peynirli_su.jpg" },
@@ -395,14 +415,40 @@
       ]}
     };
 
-    function triggerPressAndNavigate(el, fn, delay = 180) {
-      if (!el) { fn(); return; }
-      if (el.classList.contains('pressing')) return;
-      el.classList.add('pressing', 'pressed');
-      setTimeout(() => {
-        el.classList.remove('pressed', 'pressing');
-        fn();
-      }, delay);
+    // === ETKİLEŞİM YÖNETİCİSİ ===
+    function setupButtonInteractions() {
+      const items = document.querySelectorAll('.menu-card');
+      
+      items.forEach(card => {
+        const target = card.dataset.target;
+        if(!target) return;
+        const inner = card.querySelector('.menu-card-inner');
+
+        // DOKUNMA BAŞLADIĞI AN
+        inner.addEventListener('touchstart', function(e) {
+            this.classList.add('pressed');
+        }, {passive: true});
+
+        // DOKUNMA BİTTİĞİNDE
+        inner.addEventListener('touchend', function(e) {
+            // Tarayıcının kendi tıklamasını iptal et (titremeyi çözer)
+            e.preventDefault();
+            
+            // Hafif bir gecikme ver ki kullanıcı efekti görsün
+            setTimeout(() => {
+                goToSection(target);
+                // DİKKAT: 'pressed' sınıfını silmiyoruz.
+                // Sayfa değişirken buton basılı kalsın, titreme olmasın.
+            }, 100);
+        });
+
+        // PC İÇİN YEDEK
+        inner.addEventListener('mousedown', function() { this.classList.add('pressed'); });
+        inner.addEventListener('click', function(e) {
+            e.preventDefault();
+            setTimeout(() => goToSection(target), 100);
+        });
+      });
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -411,16 +457,8 @@
 
       requestAnimationFrame(() => logo.classList.add('animate-in'));
       setTimeout(() => typeTagline(tagline), 200);
-
-      document.querySelectorAll('.menu-card').forEach(card => {
-        const target = card.dataset.target;
-        if(!target) return;
-        const inner = card.querySelector('.menu-card-inner');
-        card.addEventListener('click', (e) => {
-          e.preventDefault();
-          triggerPressAndNavigate(inner, () => goToSection(target));
-        });
-      });
+      
+      setupButtonInteractions();
       
       history.replaceState({ view: 'home' }, '', '');
     });
@@ -439,8 +477,26 @@
       home.classList.remove('active', 'fast-return');
       
       const container = document.getElementById('dynamic-content');
+      container.innerHTML = buildSectionHTML(id, data);
+
+      attachBackHandlers();
+      document.querySelector('main').scrollTop = 0;
+    }
+
+    function showHome(isFast) {
+      document.getElementById('dynamic-content').innerHTML = '';
+      const home = document.getElementById('home');
+      isFast ? home.classList.add('fast-return') : home.classList.remove('fast-return');
+      home.classList.add('active');
       
-      container.innerHTML = `
+      // Ana ekrana dönünce butonları temizle
+      setTimeout(() => {
+          document.querySelectorAll('.pressed').forEach(el => el.classList.remove('pressed'));
+      }, 50);
+    }
+
+    function buildSectionHTML(id, data) {
+      return `
         <section class="screen active" id="section-${id}">
           <div class="menu-section-container">
             <div class="section-header">
@@ -463,25 +519,22 @@
           </div>
         </section>
       `;
-
-      attachBackHandlers();
-      document.querySelector('main').scrollTop = 0;
-    }
-
-    function showHome(isFast) {
-      document.getElementById('dynamic-content').innerHTML = '';
-      const home = document.getElementById('home');
-      isFast ? home.classList.add('fast-return') : home.classList.remove('fast-return');
-      home.classList.add('active');
     }
 
     function attachBackHandlers() {
       document.querySelectorAll('.back-button').forEach(btn => {
         if (btn.dataset.bound) return;
         btn.dataset.bound = '1';
+        
+        btn.addEventListener('touchstart', function(){ this.classList.add('pressed'); }, {passive:true});
+        btn.addEventListener('touchend', function(e){
+            e.preventDefault();
+            setTimeout(() => history.back(), 100);
+        });
+        btn.addEventListener('mousedown', function(){ this.classList.add('pressed'); });
         btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          triggerPressAndNavigate(btn, () => history.back(), 150);
+           e.preventDefault();
+           setTimeout(() => history.back(), 100);
         });
       });
     }
