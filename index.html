@@ -14,12 +14,11 @@
 
     :root {
       --accent: #d39a30;
-      --card-bg: #ffffff; /* Kart rengini tam beyaz yaptım, gölge daha net patlasın */
+      --card-bg: #ffffff;
       --text-primary: #3a280f;
       --text-secondary: rgba(58, 40, 19, 0.75);
       --border: rgba(58, 40, 19, 0.10);
       
-      /* GÖLGELERİ ABARTTIK (Kesin görünsün diye) */
       --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.25); 
       --shadow-press: 0 2px 5px rgba(0, 0, 0, 0.20);
     }
@@ -120,9 +119,9 @@
     .menu-grid {
       display: flex;
       flex-direction: column;
-      gap: 20px; /* Kartlar arası boşluk arttı */
-      padding: 20px; /* Kenarlardan boşluk verdim ki gölge kesilmesin */
-      margin: -20px; /* Düzeni bozmasın diye negatifi verdim */
+      gap: 20px;
+      padding: 20px;
+      margin: -20px;
     }
 
     .menu-card {
@@ -131,7 +130,6 @@
       opacity: 0;
       transform: translate3d(0, 25px, 0);
       animation: card-enter 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-      /* Donanım hızlandırma: Titremeyi önler */
       will-change: transform, opacity;
       perspective: 1000px; 
     }
@@ -153,7 +151,6 @@
       to { opacity: 1; transform: translate3d(0, 0, 0); }
     }
 
-    /* === KART TASARIMI === */
     .menu-card-inner {
       position: relative;
       border-radius: 18px;
@@ -164,19 +161,16 @@
       justify-content: space-between;
       
       background: var(--card-bg);
-      box-shadow: var(--shadow-card); /* Gölge burada */
+      box-shadow: var(--shadow-card);
       border: 1px solid rgba(58, 40, 19, 0.05);
       
       text-decoration: none;
       color: var(--text-primary);
-      
-      /* Sadece transform transition'ı var. Background yok. Titreme yapmaz. */
       transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
       
       cursor: pointer;
       user-select: none;
       
-      /* GPU Zorlama */
       transform: translate3d(0,0,0); 
       -webkit-transform: translate3d(0,0,0);
     }
@@ -185,18 +179,16 @@
       content: "";
       position: absolute;
       inset: 0;
-      /* Parlama efekti */
       background: radial-gradient(circle at top right, rgba(211,154,48,0.15), transparent 70%);
       pointer-events: none;
       border-radius: 18px;
     }
 
-    /* BASILINCA NE OLACAK? */
     .menu-card-inner:active,
     .menu-card-inner.pressed {
-      transform: scale(0.96) translate3d(0,0,0) !important; /* Hafif küçülme */
-      background-color: #fdf3dc !important; /* Hafif sarımsı renk */
-      box-shadow: var(--shadow-press) !important; /* Gölge küçülsün */
+      transform: scale(0.96) translate3d(0,0,0) !important;
+      background-color: #fdf3dc !important;
+      box-shadow: var(--shadow-press) !important;
     }
 
     .menu-card-inner .title {
@@ -224,7 +216,6 @@
     }
     .menu-card-inner .indicator::before { content: "›"; transform: translateX(1px); }
 
-    /* Geri Butonu */
     .back-button {
       transition: transform 0.1s ease, background-color 0.1s ease;
     }
@@ -317,7 +308,6 @@
     }
     .item-img-box.no-image::after { content: "Fotoğraf"; font-size: 12px; color: rgba(0,0,0,0.45); position: absolute; }
 
-    /* BUTTON */
     .feedback-btn {
       position: fixed;
       bottom: 24px;
@@ -415,7 +405,7 @@
       ]}
     };
 
-    // === ETKİLEŞİM YÖNETİCİSİ (DÜZELTİLDİ: SCROLL VS CLICK KONTROLÜ EKLENDİ) ===
+    // === GÜNCELLENMİŞ ETKİLEŞİM YÖNETİCİSİ (Kaydırma Rengi Düzeltildi) ===
     function setupButtonInteractions() {
       const items = document.querySelectorAll('.menu-card');
       
@@ -427,13 +417,22 @@
         let isScrolling = false;
         let startX = 0;
         let startY = 0;
+        let pressTimer = null; // Rengi geciktirmek için sayaç
 
         // DOKUNMA BAŞLADIĞI AN
         inner.addEventListener('touchstart', function(e) {
             isScrolling = false;
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
-            this.classList.add('pressed');
+            
+            // DİKKAT: Rengi hemen değiştirmiyoruz. 75ms bekliyoruz.
+            // Eğer kullanıcı bu sürede parmağını hareket ettirirse, bu sayaç iptal edilecek.
+            pressTimer = setTimeout(() => {
+                if (!isScrolling) {
+                    this.classList.add('pressed');
+                }
+            }, 75);
+
         }, {passive: true});
 
         // PARMAK HAREKET ETTİĞİNDE
@@ -443,25 +442,35 @@
             const currentX = e.touches[0].clientX;
             const currentY = e.touches[0].clientY;
             
-            // 10px'den fazla hareket varsa bu bir kaydırmadır
             const diffX = Math.abs(currentX - startX);
             const diffY = Math.abs(currentY - startY);
 
+            // 10px'den fazla hareket varsa bu bir kaydırmadır
             if (diffX > 10 || diffY > 10) {
                 isScrolling = true;
-                this.classList.remove('pressed'); // Görsel efekti iptal et
+                
+                // Kaydırma başladığı için renk değişimi sayacını İPTAL ET
+                if (pressTimer) clearTimeout(pressTimer);
+                
+                // Eğer renk çoktan değişmişse geri al
+                this.classList.remove('pressed');
             }
         }, {passive: true});
 
         // DOKUNMA BİTTİĞİNDE
         inner.addEventListener('touchend', function(e) {
-            // Eğer kaydırma yapıldıysa tıklamayı engelle
+            // Sayacı temizle ki geç tetiklenmesin
+            if (pressTimer) clearTimeout(pressTimer);
+
             if (isScrolling) {
                 this.classList.remove('pressed');
                 return;
             }
 
-            // Kaydırma değilse butonu aç
+            // Eğer çok hızlı tıkladıysa (75ms'den kısa), renk henüz değişmemiştir.
+            // Kullanıcı tıkladığını anlasın diye manuel olarak rengi yakıyoruz.
+            this.classList.add('pressed');
+
             e.preventDefault();
             setTimeout(() => {
                 goToSection(target);
@@ -515,7 +524,6 @@
       isFast ? home.classList.add('fast-return') : home.classList.remove('fast-return');
       home.classList.add('active');
       
-      // Ana ekrana dönünce butonları temizle
       setTimeout(() => {
           document.querySelectorAll('.pressed').forEach(el => el.classList.remove('pressed'));
       }, 50);
@@ -581,4 +589,3 @@
   </script>
 </body>
 </html>
-
