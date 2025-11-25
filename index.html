@@ -415,7 +415,7 @@
       ]}
     };
 
-    // === ETKİLEŞİM YÖNETİCİSİ ===
+    // === ETKİLEŞİM YÖNETİCİSİ (DÜZELTİLDİ: SCROLL VS CLICK KONTROLÜ EKLENDİ) ===
     function setupButtonInteractions() {
       const items = document.querySelectorAll('.menu-card');
       
@@ -424,25 +424,51 @@
         if(!target) return;
         const inner = card.querySelector('.menu-card-inner');
 
+        let isScrolling = false;
+        let startX = 0;
+        let startY = 0;
+
         // DOKUNMA BAŞLADIĞI AN
         inner.addEventListener('touchstart', function(e) {
+            isScrolling = false;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
             this.classList.add('pressed');
+        }, {passive: true});
+
+        // PARMAK HAREKET ETTİĞİNDE
+        inner.addEventListener('touchmove', function(e) {
+            if (isScrolling) return;
+
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            
+            // 10px'den fazla hareket varsa bu bir kaydırmadır
+            const diffX = Math.abs(currentX - startX);
+            const diffY = Math.abs(currentY - startY);
+
+            if (diffX > 10 || diffY > 10) {
+                isScrolling = true;
+                this.classList.remove('pressed'); // Görsel efekti iptal et
+            }
         }, {passive: true});
 
         // DOKUNMA BİTTİĞİNDE
         inner.addEventListener('touchend', function(e) {
-            // Tarayıcının kendi tıklamasını iptal et (titremeyi çözer)
+            // Eğer kaydırma yapıldıysa tıklamayı engelle
+            if (isScrolling) {
+                this.classList.remove('pressed');
+                return;
+            }
+
+            // Kaydırma değilse butonu aç
             e.preventDefault();
-            
-            // Hafif bir gecikme ver ki kullanıcı efekti görsün
             setTimeout(() => {
                 goToSection(target);
-                // DİKKAT: 'pressed' sınıfını silmiyoruz.
-                // Sayfa değişirken buton basılı kalsın, titreme olmasın.
             }, 100);
         });
 
-        // PC İÇİN YEDEK
+        // MOUSE (PC) DESTEĞİ
         inner.addEventListener('mousedown', function() { this.classList.add('pressed'); });
         inner.addEventListener('click', function(e) {
             e.preventDefault();
