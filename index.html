@@ -268,6 +268,8 @@
     .item-card {
       display: flex;
       justify-content: space-between;
+      align-items: flex-start; 
+      gap: 16px; 
       background: linear-gradient(135deg, #ffffff, #fbf6ea);
       padding: 14px;
       border-radius: 16px;
@@ -287,19 +289,40 @@
       to { opacity: 1; transform: translate3d(0,0,0); }
     }
 
-    .item-details h3 { margin: 0 0 6px; font-size: 17px; font-weight: 600; }
-    .item-details .price { color: var(--accent); font-weight: 700; font-size: 16px; margin-left: 6px; }
+    .item-details {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .item-details h3 { 
+        margin: 0 0 2px; /* Başlık ile fiyat arasını kıstık */
+        font-size: 17px; 
+        font-weight: 700; 
+        line-height: 1.2; 
+    }
+    
+    /* YENİ FİYAT YERLEŞİMİ: BAŞLIĞIN ALTINDA */
+    .price-tag { 
+        display: block; 
+        color: var(--accent); 
+        font-weight: 700; 
+        font-size: 15px; 
+        margin-bottom: 8px; /* Fiyat ile açıklama arası boşluk */
+    }
+    
     .item-details p { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
     
     .item-img-box {
-      width: 124px;   
+      width: 110px;   
       height: 110px;  
       border-radius: 16px; overflow: hidden;
       border: 1px solid rgba(0,0,0,0.08);
       background: #f3f0ea;
       display: flex; align-items: center; justify-content: center;
       position: relative; flex-shrink: 0;
-      margin-left: 10px; 
     }
     .item-img-box img { 
       width: 100%; 
@@ -373,39 +396,42 @@
   <script>
     const menuData = {
       borekler: { title: "Börekler", items: [
-        { n: "Peynirli Su Böreği", p: "", d: "El açması ince katmanlı su böreği.", i: "images/cayborek_peynirli_su.jpg" },
-        { n: "Patatesli Su Böreği", p: "", d: "Baharatlı patates dolgusu ile hazırlanır.", i: "images/cayborek_patatesli_su.jpg" },
-        { n: "Kıymalı Su Böreği", p: "", d: "Özel kıymalı harcı ile doyurucu lezzet.", i: "images/cayborek_kiymali_su.jpg" },
-        { n: "Peynirli Kol Böreği", p: "", d: "Geleneksel peynirli kol böreği.", i: "images/cayborek_peynirli_kol.jpg" },
-        { n: "Patatesli Kol Böreği", p: "", d: "Bol baharatlı patates dolgulu kol böreği.", i: "images/cayborek_patatesli_kol.jpg" },
-        { n: "Kıymalı Kol Böreği", p: "", d: "Kıymalı nefis kol böreği.", i: "images/cayborek_kiymali_kol.jpg" }
+        { n: "Peynirli Su Böreği", p: "150 ₺", d: "El açması ince katmanlı su böreği.", i: "images/cayborek_peynirli_su.jpg" },
+        { n: "Patatesli Su Böreği", p: "150 ₺", d: "Baharatlı patates dolgusu ile hazırlanır.", i: "images/cayborek_patatesli_su.jpg" },
+        { n: "Kıymalı Su Böreği", p: "170 ₺", d: "Özel kıymalı harcı ile doyurucu lezzet.", i: "images/cayborek_kiymali_su.jpg" },
+        { n: "Peynirli Kol Böreği", p: "140 ₺", d: "Geleneksel peynirli kol böreği.", i: "images/cayborek_peynirli_kol.jpg" },
+        { n: "Patatesli Kol Böreği", p: "140 ₺", d: "Bol baharatlı patates dolgulu kol böreği.", i: "images/cayborek_patatesli_kol.jpg" },
+        { n: "Kıymalı Kol Böreği", p: "160 ₺", d: "Kıymalı nefis kol böreği.", i: "images/cayborek_kiymali_kol.jpg" }
       ]},
       tatlilar: { title: "Tatlılar", items: [
-        { n: "Klasik Baklava", p: "", d: "Cevizli, geleneksel şerbetli tatlı.", i: "https://i.imgur.com/74SKUHT.jpeg" },
-        { n: "Özel İnce Hamur Baklava", p: "", d: "İncecik hamur ve bol fıstıkla hazırlanır.", i: "" },
-        { n: "Kadayıf", p: "", d: "Tel kadayıf ile hazırlanan klasik tat.", i: "" },
-        { n: "Bülbül Yuvası", p: "", d: "Geleneksel fıstıklı yuva tatlısı.", i: "" },
-        { n: "Kuru Bülbül Yuvası", p: "", d: "Daha az şerbetli kuru özel tarif.", i: "" },
-        { n: "Şöbiyet", p: "", d: "Bol fıstıklı, kaymaklı nefis şöbiyet.", i: "" }
+        { n: "Klasik Baklava", p: "180 ₺", d: "Cevizli, geleneksel şerbetli tatlı.", i: "https://i.imgur.com/74SKUHT.jpeg" },
+        { n: "Özel İnce Hamur Baklava", p: "200 ₺", d: "İncecik hamur ve bol fıstıkla hazırlanır.", i: "" },
+        { n: "Kadayıf", p: "160 ₺", d: "Tel kadayıf ile hazırlanan klasik tat.", i: "" },
+        { n: "Bülbül Yuvası", p: "190 ₺", d: "Geleneksel fıstıklı yuva tatlısı.", i: "" },
+        { n: "Kuru Bülbül Yuvası", p: "190 ₺", d: "Daha az şerbetli kuru özel tarif.", i: "" },
+        { n: "Şöbiyet", p: "210 ₺", d: "Bol fıstıklı, kaymaklı nefis şöbiyet.", i: "" }
       ]},
       sutlu: { title: "Sütlü Tatlılar", items: [
-        { n: "Soğuk Baklava", p: "", d: "Sütlü şerbetiyle hafif ve ferahlatıcı.", i: "" },
-        { n: "Çikolatalı Soğuk Baklava", p: "", d: "Çikolatalı dokunuşla daha yoğun aroma.", i: "" }
+        // FOTOĞRAF OLMADIĞI İÇİN BOŞ BIRAKTIM (i: "")
+        // SEN YÜKLEYİNCE BURAYA DOSYA YOLUNU YAZARSIN.
+        { n: "Dubai Cup", p: "250 ₺", d: "Antep fıstıklı çıtır kadayıf dolgusu, akışkan çikolata ve özel sütlü krema katmanlarıyla hazırlanan viral lezzet.", i: "" },
+        { n: "Soğuk Baklava", p: "220 ₺", d: "Sütlü şerbetiyle hafif ve ferahlatıcı.", i: "" },
+        { n: "Çikolatalı Soğuk Baklava", p: "230 ₺", d: "Çikolatalı dokunuşla daha yoğun aroma.", i: "" }
       ]},
       sicak: { title: "Sıcak İçecekler", items: [
-        { n: "Çay", p: "", d: "", i: "" },
-        { n: "Türk Kahvesi", p: "", d: "", i: "" },
-        { n: "Filtre Kahve", p: "", d: "", i: "" }
+        { n: "Çay", p: "25 ₺", d: "", i: "" },
+        { n: "Türk Kahvesi", p: "70 ₺", d: "", i: "" },
+        { n: "Filtre Kahve", p: "80 ₺", d: "", i: "" }
       ]},
       soguk: { title: "Soğuk İçecekler", items: [
-        { n: "Su", p: "", d: "", i: "" },
-        { n: "Soğuk Çay", p: "", d: "", i: "" },
-        { n: "Meyve Suyu", p: "", d: "", i: "" },
-        { n: "Kola", p: "", d: "", i: "" }
+        { n: "Su", p: "15 ₺", d: "", i: "" },
+        { n: "Soğuk Çay", p: "60 ₺", d: "", i: "" },
+        { n: "Meyve Suyu", p: "60 ₺", d: "", i: "" },
+        { n: "Kola", p: "60 ₺", d: "", i: "" }
       ]}
     };
 
-    // === GÜNCELLENMİŞ ETKİLEŞİM YÖNETİCİSİ (Kaydırma Rengi Düzeltildi) ===
+    // === ETKİLEŞİM YÖNETİCİSİ (SON VERSİYON) ===
     function setupButtonInteractions() {
       const items = document.querySelectorAll('.menu-card');
       
@@ -417,16 +443,13 @@
         let isScrolling = false;
         let startX = 0;
         let startY = 0;
-        let pressTimer = null; // Rengi geciktirmek için sayaç
+        let pressTimer = null;
 
-        // DOKUNMA BAŞLADIĞI AN
         inner.addEventListener('touchstart', function(e) {
             isScrolling = false;
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
             
-            // DİKKAT: Rengi hemen değiştirmiyoruz. 75ms bekliyoruz.
-            // Eğer kullanıcı bu sürede parmağını hareket ettirirse, bu sayaç iptal edilecek.
             pressTimer = setTimeout(() => {
                 if (!isScrolling) {
                     this.classList.add('pressed');
@@ -435,7 +458,6 @@
 
         }, {passive: true});
 
-        // PARMAK HAREKET ETTİĞİNDE
         inner.addEventListener('touchmove', function(e) {
             if (isScrolling) return;
 
@@ -445,30 +467,21 @@
             const diffX = Math.abs(currentX - startX);
             const diffY = Math.abs(currentY - startY);
 
-            // 10px'den fazla hareket varsa bu bir kaydırmadır
             if (diffX > 10 || diffY > 10) {
                 isScrolling = true;
-                
-                // Kaydırma başladığı için renk değişimi sayacını İPTAL ET
                 if (pressTimer) clearTimeout(pressTimer);
-                
-                // Eğer renk çoktan değişmişse geri al
                 this.classList.remove('pressed');
             }
         }, {passive: true});
 
-        // DOKUNMA BİTTİĞİNDE
         inner.addEventListener('touchend', function(e) {
-            // Sayacı temizle ki geç tetiklenmesin
             if (pressTimer) clearTimeout(pressTimer);
 
             if (isScrolling) {
                 this.classList.remove('pressed');
                 return;
             }
-
-            // Eğer çok hızlı tıkladıysa (75ms'den kısa), renk henüz değişmemiştir.
-            // Kullanıcı tıkladığını anlasın diye manuel olarak rengi yakıyoruz.
+            
             this.classList.add('pressed');
 
             e.preventDefault();
@@ -477,7 +490,6 @@
             }, 100);
         });
 
-        // MOUSE (PC) DESTEĞİ
         inner.addEventListener('mousedown', function() { this.classList.add('pressed'); });
         inner.addEventListener('click', function(e) {
             e.preventDefault();
@@ -541,7 +553,8 @@
               ${data.items.map(item => `
                 <div class="item-card">
                   <div class="item-details">
-                    <h3>${item.n}<span class="price">${item.p}</span></h3>
+                    <h3>${item.n}</h3>
+                    <span class="price-tag">${item.p}</span>
                     <p>${item.d}</p>
                   </div>
                   <div class="item-img-box ${item.i ? "" : "no-image"}">
